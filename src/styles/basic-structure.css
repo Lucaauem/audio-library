@@ -1,0 +1,42 @@
+.container{
+    display: grid;
+    height: 100%;
+    grid-template-columns: 20% 55% 25%;
+    grid-template-rows: calc(100% - 75px) 75px;
+}
+
+.col-info{
+    background-color: red;
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.col-folders{
+    background-color: blue;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.col-files{
+    background-color: yellow;
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.row-soundbar{
+    background-color: purple;
+    grid-area: 2 / 1 / 2 / 4;
+}
+
+.resize-bar-left, .resize-bar-right{
+    background-color: green;
+    cursor: e-resize;
+    height: 100%;
+    width: 10px;
+}
+
+.resize-bar-left{
+    margin-left: -5px;
+}
+
+.resize-bar-right{
+    float: right;
+    margin-right: -5px;
+}
