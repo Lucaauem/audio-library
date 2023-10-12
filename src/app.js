@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), '/src/index.html'))
 })
 
-app.listen(PORT, (err) => {
+app.listen(PORT, '0.0.0.0', (err) => {
     if(err){
         console.log(err)
     }

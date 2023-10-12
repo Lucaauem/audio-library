@@ -32,11 +32,11 @@
     width: 10px;
 }
 
-.resize-bar-left{
+.resize-bar-right{
     margin-left: -5px;
 }
 
-.resize-bar-right{
+.resize-bar-left{
     float: right;
     margin-right: -5px;
 }
