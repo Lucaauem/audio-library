@@ -1,4 +1,21 @@
 html, body{
     margin: 0;
     height: 100%;
+    font-family: Arial;
+}
+
+.file-list-item{
+    transition: background-color 0.1s;
+    color: white;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+
+.file-list-item > p {
+    margin: 0;
+    user-select: none;
+}
+
+.file-list-item:hover{
+    background-color: rgb(46, 46, 46)
 }
