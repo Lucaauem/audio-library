@@ -17,7 +17,9 @@ class AudioPlayer{
             return
         }
 
-        if(this.audio.paused){   
+        document.getElementById('buttonPlay').classList.toggle('button-play-playing')
+        
+        if(this.audio.paused){
             this.audio.src = (this.source)
             this.audio.play()
         }else{
@@ -32,7 +34,8 @@ class AudioPlayer{
 
         let currentIndex = this.ALL_SONGS.indexOf(this.source)
         let nextIndex = (currentIndex + 1) % this.ALL_SONGS.length
-
+        
+        // !FIXME! -- not working while song is playing
         this.source = this.ALL_SONGS[nextIndex]
         this.play()
     }

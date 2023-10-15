@@ -17,6 +17,7 @@ function createSongListElement(file){
     document.getElementById('fileList').innerHTML += `
         <div class="file-list-item" onclick="selectSong('` + file.name_full + `')">
             <p>` + file.name + `</p>
+            <p>` + file.duration + `</p>
         </div>`
 }
 

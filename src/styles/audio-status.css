@@ -1,12 +1,52 @@
-.button-play{
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    border: 0;
+.button-play, .button-next, .button-previous{
+    --button-size : 32.5px;
 
-    font-weight: 900;
+    height: var(--button-size);
+    width: var(--button-size);
+    border: 0;
+    padding: 0;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.button-play:hover{
+.button-play{
+    border-radius: 50%;
+
+    background-image: url("/src/assets/icons/icon-play.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-x: 55%;
+    background-size: 50%;
+}
+
+.button-play:hover, .button-next:hover, .button-previous:hover{
+    cursor: pointer;
     scale: 1.1;
+}
+
+.button-play:active, .button-next:active, .button-previous:active{
+    scale: 1;
+}
+
+.button-play-playing{
+    background-image: url("/src/assets/icons/icon-pause.svg");
+    background-size: 100%;
+    background-position-x: center;
+}
+
+.button-next{
+    margin-left: 10px;
+    background-color: transparent;
+    background-image: url("/src/assets/icons/icon-next.svg");
+    background-size: 70%;
+}
+
+.button-previous{
+    margin-right: 10px;
+    background-color: transparent;
+    background-image: url("/src/assets/icons/icon-previous.svg");
+    background-size: 70%;
 }

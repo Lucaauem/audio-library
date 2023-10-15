@@ -4,7 +4,6 @@ const path    = require('path')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 
 let app    = express()
-let audioFiles = []
 const PORT = 8080
 const FILE_PATH = './files'
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a'] // !TODO! Automatic recognition
@@ -12,59 +11,60 @@ const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a'] // !TODO! Automatic recognition
 app.use(express.static(process.cwd()))
 
 // Read audio files and create objects with the needed info
-function readAudioFiles(){
+async function readAudioFiles(){
     let files = fs.readdirSync(FILE_PATH)
-    let useFiles = []
 
-    files.forEach(file => {
-        let obj = {
-            'name' : '',
-            'name_full' : '',
-            'type' : '',
-            'duration' : '',
-            'size' : -1
-        }
-
-        let fileNameSplit = file.split('.')
-        let extension = fileNameSplit.pop()
-
-        // Skip non audio files
-        if(!ALLOWED_EXTENSIONS.includes(extension)){
-            return
-        }
-
-        let filePath = FILE_PATH + '/' + file
-        let duration = getDuration(filePath) // !FIXME!
-
-        obj.type = extension
-        obj.name = fileNameSplit.join('.')
-        obj.name_full = file
-        obj.size = ((fs.statSync(filePath).size) / 1000000).toFixed(2) // byte -> Mbyte
-
-        useFiles.push(obj)
-    })
-
-    return useFiles
+    return await readAudioFile([], files, 0)
 }
 
-function getDuration(path){
-    getAudioDurationInSeconds(path).then((time) => {
+async function readAudioFile(useFiles, files, index){
+    if(index == files.length){
+        return new Promise((resolve) => resolve(useFiles))
+    }
+
+    let obj = {
+        'name' : '',
+        'name_full' : '',
+        'type' : '',
+        'duration' : '',
+        'size' : -1
+    }
+
+    let fileNameSplit = files[index].split('.')
+    let extension = fileNameSplit.pop()
+
+    // Skip non audio files
+    if(!ALLOWED_EXTENSIONS.includes(extension)){
+        return
+    }
+
+    let filePath = FILE_PATH + '/' + files[index]
+    let duration = await getAudioDurationInSeconds(filePath).then((time) => {
         time = Math.round(time)
 
         let minutes = parseInt(time / 60)
         let seconds = parseInt(time - minutes * 60)
         seconds = ('0' + seconds).slice(-2)
 
-        return minutes + ':' + seconds
+        return new Promise((resolve) => resolve(minutes + ':' + seconds))
     })
+
+    obj.type = extension
+    obj.name = fileNameSplit.join('.')
+    obj.name_full = files[index]
+    obj.duration = duration
+    obj.size = ((fs.statSync(filePath).size) / 1000000).toFixed(2) // byte -> Mbyte
+
+    useFiles.push(obj)
+
+    return readAudioFile(useFiles, files, index + 1)
 }
 
 app.get('/audio-files', (req, res) => {
-    res.send({'path': FILE_PATH, 'files': audioFiles})
+    readAudioFiles().then(audioFiles => { res.send({'path': FILE_PATH, 'files': audioFiles}) })
 })
 
-app.get('/', (req, res) => {
-    audioFiles = readAudioFiles()
+app.get('/', (req, res) => {  
     res.sendFile(path.join(process.cwd(), '/src/index.html'))
 })
 
