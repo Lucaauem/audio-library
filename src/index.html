@@ -2,6 +2,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/src/styles/audio-status.css">
         <link rel="stylesheet" href="/src/styles/basic-structure.css">
         <link rel="stylesheet" href="/src/styles/style.css">
         <link rel="shortcut icon" href="/src/icon.ico" type="image/x-icon">
@@ -17,7 +18,14 @@
                 <div class="resize-bar-left" id="resizeBar-left"></div>
             </div>
             <div class="row-soundbar">
-                <audio controls src="/files/sample.mp3" id="audioPlayer"></audio>
+                <audio id="audioPlayer"></audio>
+                <div></div>
+                <div>
+                    <button onclick="AUDIO_PLAYER.previous()"></button>
+                    <button onclick="AUDIO_PLAYER.play()" class="button-play"></button>
+                    <button onclick="AUDIO_PLAYER.next()"></button>
+                </div>
+                <div></div>
             </div>
         </div>
     </body>
@@ -29,6 +37,7 @@
             return xmlHttp.responseText
         }
     </script>
+    <script src="/src/js/audioPlayer.js"></script>
     <script src="/src/js/columnResize.js"></script>
     <script src="/src/js/interaction.js"></script>
 </html>

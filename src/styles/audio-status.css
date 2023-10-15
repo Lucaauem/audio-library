@@ -1,0 +1,12 @@
+.button-play{
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    border: 0;
+
+    font-weight: 900;
+}
+
+.button-play:hover{
+    scale: 1.1;
+}

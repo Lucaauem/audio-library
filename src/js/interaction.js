@@ -1,23 +1,29 @@
+
 let fileList     = document.getElementById('fileList')
 let audioFileObj = JSON.parse(httpGet('audio-files'))
 let filePath     = audioFileObj.path
 let audioFiles   = audioFileObj.files
-const AUDIO_PLAYER = document.getElementById('audioPlayer')
+let sources      = []
 
-audioFiles.forEach(file => {createSongListElement(file)})
+audioFiles.forEach(file => {
+    sources.push(filePath + '/' + file.name_full)
+    createSongListElement(file)
+})
+
+const AUDIO_PLAYER = new AudioPlayer('audioPlayer', sources)
 
 function createSongListElement(file){
-    // Remove extension
-    let songName = ((file.split('.')).slice(0, -1)).join('.')
-
+    // Create div
     document.getElementById('fileList').innerHTML += `
-        <div class="file-list-item" onclick="selectSong('` + file + `')">
-            <p>` + songName + `</p>
+        <div class="file-list-item" onclick="selectSong('` + file.name_full + `')">
+            <p>` + file.name + `</p>
         </div>`
 }
 
 function selectSong(name){
     // Set new source
     let source = filePath + '/' + name
-    AUDIO_PLAYER.src = source
+    
+    // Update info UI
+    AUDIO_PLAYER.changeSource(source)
 }

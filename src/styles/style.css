@@ -2,12 +2,14 @@ html, body{
     margin: 0;
     height: 100%;
     font-family: Arial;
+    background-color: black;
 }
 
 .file-list-item{
     transition: background-color 0.1s;
+    border-radius: 10px;
     color: white;
-    padding: 5px 5px;
+    padding: 10px 5px;
     cursor: pointer;
 }
 
@@ -17,5 +19,5 @@ html, body{
 }
 
 .file-list-item:hover{
-    background-color: rgb(46, 46, 46)
+    background-color: rgb(63, 63, 63)
 }
