@@ -1,7 +1,10 @@
 class AudioPlayer{
     ALL_SONGS = []
+    TIMER_STEPS_MS = 500
     source = null
     audio = null
+    currentPlayTime = 0
+    timerInterval = null
     
     constructor(id, allSources){
         this.audio = document.getElementById(id)
@@ -20,9 +23,17 @@ class AudioPlayer{
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
         
         if(this.audio.paused){
+            // Play audio
             this.audio.src = (this.source)
             this.audio.play()
+            
+            // Update time bar !FIXME!
+            this.timerInterval = window.setInterval(() => {
+                this.currentPlayTime += this.TIMER_STEPS_MS
+                this.updateProcessBar()
+            }, this.TIMER_STEPS_MS)
         }else{
+            clearInterval(this.timerInterval)
             this.audio.pause()
         }
     }
@@ -66,5 +77,12 @@ class AudioPlayer{
 
     changeVolume(){
         
+    }
+
+    updateProcessBar(){
+        if(this.audio.paused){
+            clearInterval(this.timerInterval)
+        }
+        console.log(this.currentPlayTime)
     }
 }
