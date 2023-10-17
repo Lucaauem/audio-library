@@ -1,18 +1,21 @@
 class AudioPlayer{
-    ALL_SONGS = []
-    TIMER_STEPS_MS = 500
-    source = null
-    audio = null
+    ALL_SONGS       = []
+    TIMER_STEPS_MS  = 250
     currentPlayTime = 0
-    timerInterval = null
+    source          = null
+    audio           = null
+    timerInterval   = null
     
     constructor(id, allSources){
         this.audio = document.getElementById(id)
         this.ALL_SONGS = allSources
     }
 
-    changeSource(src){
+    changeSource(src, name, duration){
         this.source = src
+
+        document.getElementById('songName').innerHTML = name
+        document.getElementById('songDurationTime').innerHTML = duration
     }
 
     play(){
@@ -23,8 +26,10 @@ class AudioPlayer{
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
         
         if(this.audio.paused){
-            // Play audio
-            this.audio.src = (this.source)
+            if(this.currentPlayTime == 0){
+                this.audio.src = this.source
+            }
+
             this.audio.play()
             
             // Update time bar !FIXME!
@@ -39,28 +44,9 @@ class AudioPlayer{
     }
 
     next(){
-        if(this.source == null){
-            return
-        }
-
-        let currentIndex = this.ALL_SONGS.indexOf(this.source)
-        let nextIndex = (currentIndex + 1) % this.ALL_SONGS.length
-        
-        // !FIXME! -- not working while song is playing
-        this.source = this.ALL_SONGS[nextIndex]
-        this.play()
     }
 
     previous(){
-        if(this.source == null){
-            return
-        }
-
-        let currentIndex = this.ALL_SONGS.indexOf(this.source)
-        let prevIndex = currentIndex != 0 ? (currentIndex - 1) : this.ALL_SONGS.length - 1
-
-        this.source = this.ALL_SONGS[prevIndex]
-        this.play()
     }
 
     pause(){
@@ -82,7 +68,18 @@ class AudioPlayer{
     updateProcessBar(){
         if(this.audio.paused){
             clearInterval(this.timerInterval)
+            return
         }
-        console.log(this.currentPlayTime)
+        document.getElementById('songCurrentTime').innerHTML = this.toTimeString(this.currentPlayTime)
+    }
+
+    toTimeString(timeInSeconds){
+        let time = Math.round(timeInSeconds / 1000)
+
+        let minutes = parseInt(time / 60)
+        let seconds = parseInt(time - minutes * 60)
+        seconds = ('0' + seconds).slice(-2)
+
+        return minutes + ':' + seconds
     }
 }

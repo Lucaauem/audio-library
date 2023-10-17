@@ -15,16 +15,16 @@ const AUDIO_PLAYER = new AudioPlayer('audioPlayer', sources)
 function createSongListElement(file){
     // Create div
     document.getElementById('fileList').innerHTML += `
-        <div class="file-list-item" onclick="selectSong('` + file.name_full + `')">
+        <div class="file-list-item" onclick="selectSong('` + file.name_full + `', '` + file.name + `', '` + file.duration + `')">
             <p>` + file.name + `</p>
             <p>` + file.duration + `</p>
         </div>`
 }
 
-function selectSong(name){
+function selectSong(name, nameNoExtension, duration){
     // Set new source
     let source = filePath + '/' + name
     
     // Update info UI
-    AUDIO_PLAYER.changeSource(source)
+    AUDIO_PLAYER.changeSource(source, nameNoExtension, duration)
 }

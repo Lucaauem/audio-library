@@ -2,13 +2,13 @@ html, body{
     margin: 0;
     height: 100%;
     font-family: Arial;
+    color:white;
     background-color: black;
 }
 
 .file-list-item{
     transition: background-color 0.1s;
     border-radius: 10px;
-    color: white;
     padding: 10px 5px;
     cursor: pointer;
 }

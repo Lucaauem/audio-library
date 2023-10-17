@@ -50,3 +50,56 @@
     background-image: url("/src/assets/icons/icon-previous.svg");
     background-size: 70%;
 }
+
+.song-name{
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.song-name > p{
+    margin: 0px 0px 0px 15px;
+    height: fit-content;
+    max-width: 75%;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    overflow: hidden;
+    text-align: initial;
+    text-overflow: ellipsis;
+}
+
+#songCurrentTime{
+    margin-right: 10px;
+    text-align: end;
+}
+#songDurationTime{
+    margin-left: 10px;
+    text-align: start;
+}
+
+.song-process{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.song-process > p{
+    margin: 0;
+    width: 20%;
+}
+
+.song-process-bar{
+    height: 5px;
+    width: 60%;
+    border-radius: 15px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.song-process-bar{
+    background-color: rgb(42, 42, 42);
+    border-color:rgb(42, 42, 42);
+}

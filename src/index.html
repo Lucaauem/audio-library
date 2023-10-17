@@ -19,11 +19,18 @@
             </div>
             <div class="row-soundbar">
                 <audio id="audioPlayer"></audio>
-                <div></div>
+                <div class="song-name">
+                    <p id="songName">...</p>
+                </div>
                 <div>
                     <button onclick="AUDIO_PLAYER.previous()" class="button-previous"></button>
                     <button onclick="AUDIO_PLAYER.play()" class="button-play" id="buttonPlay"></button>
                     <button onclick="AUDIO_PLAYER.next()" class="button-next"></button>
+                    <div class="song-process">
+                        <p id="songCurrentTime">00:00</p>
+                        <div class="song-process-bar"></div>
+                        <p id="songDurationTime">00:00</p>
+                    </div>
                 </div>
                 <div></div>
             </div>
