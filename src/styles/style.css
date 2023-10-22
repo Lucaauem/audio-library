@@ -1,3 +1,9 @@
+:root{
+    --primary-dark: -1;
+    --secondary-dark: -1;
+    --tertiary-dark : rgb(63, 63, 63)
+}
+
 html, body{
     margin: 0;
     height: 100%;
@@ -6,18 +12,33 @@ html, body{
     background-color: black;
 }
 
+p{
+    margin: 0;
+}
+
+.border-hover-tertiary:hover{
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: var(--tertiary-dark);
+}
+
 .file-list-item{
     transition: background-color 0.1s;
-    border-radius: 10px;
     padding: 10px 5px;
-    cursor: pointer;
 }
 
 .file-list-item > p {
-    margin: 0;
     user-select: none;
 }
 
-.file-list-item:hover{
-    background-color: rgb(63, 63, 63)
+/* -- Folder Column -- */
+.folder-element{
+    transition: background-color 0.1s;
+    display: flex;
+    height: clamp(50px, 7.5%, 75px);
+    align-items: center;
+}
+
+.folder-element > img{
+    max-height: 100%;
 }
