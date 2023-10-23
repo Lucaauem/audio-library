@@ -3,9 +3,9 @@ const fs      = require('fs')
 const path    = require('path')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
 
-let app    = express()
-const PORT = 8080
-const FILE_PATH = './files'
+let app                  = express()
+const PORT               = 8080
+const FILE_PATH          = './files'
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a'] // !TODO! Automatic recognition
 
 app.use(express.static(process.cwd()))
@@ -76,7 +76,8 @@ app.get(new RegExp('(audio-files).*'), (req, res) => {
     if(url.length == 2){ // No folder
         readAudioFiles('').then(files => { res.send({'path': FILE_PATH, 'files': files[0], 'folders': files[1]}) })
     }else{ // 1 folder
-        readAudioFiles(url.pop()).then(files => { res.send({'path': FILE_PATH, 'files': files[0], 'folders': files[1]}) })
+        let folder = url.pop()
+        readAudioFiles(folder).then(files => { res.send({'path': FILE_PATH + '/' + folder, 'files': files[0], 'folders': files[1]})})
     }
 })
 

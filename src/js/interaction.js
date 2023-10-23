@@ -50,13 +50,14 @@ function openFolder(folder){
     audioFiles   = audioFileObj.files
     folders      = audioFileObj.folders
 
+    console.log(audioFileObj)
+
     updateFilesShown(audioFiles)
 }
 
 function selectSong(name, nameNoExtension, duration){
     // Set new source
     let source = filePath + '/' + name
-    
     // Update info UI
     AUDIO_PLAYER.changeSource(source, nameNoExtension, duration)
 }
