@@ -23,11 +23,29 @@ p{
 }
 
 .file-list-item{
+    display: flex;
+    flex-direction: row;
     transition: background-color 0.1s;
     padding: 10px 5px;
 }
 
-.file-list-item > p {
+.file-list-item{
+    display: flex;
+    align-items: center;
+}
+
+.file-list-item-fav{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.file-list-item > div{
+    width: 50%;
+}
+
+.file-list-item > div > p {
     user-select: none;
 }
 

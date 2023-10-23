@@ -9,7 +9,6 @@ resizeBarLeft.addEventListener('mouseup', endResize)
 
 let mouseInitialPos = -1
 let onResize = false
-
 function setResize(event){
     mouseInitialPos = event.x
 
