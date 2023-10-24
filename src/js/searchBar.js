@@ -13,7 +13,8 @@ class SearchBar{
         this.#SEARCH_BAR.addEventListener('blur',  this.stopSearch.bind(this))
     }
 
-    updateSearch(){  
+    updateSearch(){
+        this.#content = []
         // Remove content with different name
         Object.keys(this.#allFiles).forEach(filePath => {
             let fileName = this.#allFiles[filePath]
@@ -22,6 +23,7 @@ class SearchBar{
                 this.#content.push(fileName)
             }
         })
+        console.log(this.#content)
     }
     startSearch(){
         // Get content
@@ -30,6 +32,7 @@ class SearchBar{
         // Sort content !TODO!
 
         // Add to content
+        this.#content = []
         Object.keys(this.#allFiles).forEach(filePath => {
             this.#content.push(this.#allFiles[filePath])
         })
