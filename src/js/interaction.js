@@ -1,3 +1,4 @@
+const FAVOURITES_PATH_SAVED = Object.keys(JSON.parse(httpGet('get-favourite-list')))
 
 let fileList     = document.getElementById('fileList')
 let audioFileObj = JSON.parse(httpGet('audio-files'))
@@ -12,6 +13,7 @@ addFolders()
 const AUDIO_PLAYER = new AudioPlayer('audioPlayer', sources)
 
 function createSongListElement(file, path){
+    let isFavourite = FAVOURITES_PATH_SAVED.includes(path) ? 'active' : ''
     document.getElementById('fileList').innerHTML += `
         <div class="file-list-item border-hover-tertiary" onclick="selectSong('` + file.name_full + `', '` + file.name + `', '` + file.duration + `')">
             <div>
@@ -19,7 +21,7 @@ function createSongListElement(file, path){
                 <p>` + file.duration + `</p>
             </div>
             <div class="file-list-item-fav">
-                <p onclick="toggleFavourite('` + path + `')">Fav</p>
+                <p onclick="toggleFavourite('` + path + `', this)" class="` + isFavourite + `">Fav</p>
             </div>
         </div>`
 }
@@ -59,17 +61,22 @@ function openFolder(folder){
 
 function selectSong(name, nameNoExtension, duration){
     // Set new source
+    // !TODO! Favourite Songs
     let source = filePath + '/' + name
     // Update info UI
     AUDIO_PLAYER.changeSource(source, nameNoExtension, duration)
 }
 
-function toggleFavourite(path){
-    let isFavourite = httpGet('favourite-song/' + path)
+function toggleFavourite(path, dom){
+    httpGet('favourite-song/' + path) // Update .json
+    dom.classList.toggle('active')
 }
 
 function openFavourites(){
     audioFileObj = JSON.parse(httpGet('get-favourite-songs'))
+    filePath     = null
+    audioFiles   = audioFileObj.files
+    folders      = null
 
-    console.log(audioFileObj)
+    updateFilesShown(audioFileObj)
 }

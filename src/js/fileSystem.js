@@ -1,5 +1,6 @@
 const fs = require('fs')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
+const path = require('path')
 
 class FileSystem{
     #ALLOWED_EXTENSIONS = []
@@ -70,16 +71,16 @@ class FileSystem{
     }
 
     async getFavourites(){
-        return this.#readFavourite([], JSON.parse(fs.readFileSync(this.#FAVOURITES_PATH)), index)
+        return this.#readFavourite([], Object.keys(JSON.parse(fs.readFileSync(this.#FAVOURITES_PATH))), 0)
     }
 
     async #readFavourite(fileObjects, paths, index){
-        if(index == files.length){
-            return new Promise((resolve) => resolve([fileObjects, folders]))
+        if(index == paths.length){
+            return new Promise((resolve) => resolve(fileObjects))
         }
     
         let filePath      = paths[index]
-        let fileName      = paths.split('/')[paths.split('/').length - 1]
+        let fileName      = filePath.split('/')[filePath.split('/').length - 1]
         let fileNameSplit = fileName.split('.')
         let extension     = fileNameSplit.pop()
         let fileStats     = fs.statSync(filePath)
@@ -103,7 +104,7 @@ class FileSystem{
     
         obj.type      = extension
         obj.name      = fileNameSplit.join('.')
-        obj.name_full = files[index]
+        obj.name_full = fileName
         obj.duration  = duration
         obj.size      = (fileStats.size / 1000000).toFixed(2) // byte -> Mbyte
     

@@ -13,9 +13,14 @@ const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURI
 app.use(express.static(process.cwd()))
 
 
-// Get favourites !FIXME!
-app.get('get-favourite-songs', (req, res) => {
-    FILE_SYSTEM.getFavourites().then(files => { res.send({'path': FILE_PATH + '/' + folder, 'files': files[0], 'folders': files[1]})})
+// Get favourites
+app.get('/get-favourite-songs', (req, res) => {
+    FILE_SYSTEM.getFavourites().then(files => { res.send(files) })
+})
+
+// Get favourites (json)
+app.get('/get-favourite-list', (req, res) => {
+    res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
 })
 
 // Get audio files
@@ -31,7 +36,7 @@ app.get(new RegExp('(audio-files).*'), (req, res) => {
 })
 
 // Change in "favourite songs"
-app.get(new RegExp('(favourite-song).*'), (req, res) => {
+app.get(new RegExp('(favourite-song/).*'), (req, res) => {
     let favourites  = JSON.parse(fs.readFileSync(FAVOURITES_PATH))
     let path        = req.originalUrl.split('/')
     path.shift()
