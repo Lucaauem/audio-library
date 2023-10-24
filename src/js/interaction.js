@@ -11,6 +11,7 @@ updateFilesShown(audioFiles)
 addFolders()
 
 const AUDIO_PLAYER = new AudioPlayer('audioPlayer', sources)
+const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
 
 function createSongListElement(file, path){
     let isFavourite = FAVOURITES_PATH_SAVED.includes(path) ? 'active' : ''

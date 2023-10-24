@@ -23,6 +23,14 @@ app.get('/get-favourite-list', (req, res) => {
     res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
 })
 
+// Get all files
+app.get('/get-all-files', (req, res) => {
+    let filesObj = {}
+    let filesRaw = fs.readdirSync(FILE_PATH)
+    console.log(filesRaw)
+    res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
+})
+
 // Get audio files
 app.get(new RegExp('(audio-files).*'), (req, res) => {
     let url = (req.originalUrl).split('/')

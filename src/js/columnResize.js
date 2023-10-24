@@ -30,7 +30,6 @@ function endResize(event){
 
 function resizeLeft(event){
     let mousePos = (event.x / window.innerWidth) * 100
-
     if(mousePos < 2){
         return
     }
