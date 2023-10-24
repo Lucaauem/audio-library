@@ -15,12 +15,21 @@
                 <div class="resize-bar-right" id="resizeBar-right"></div>
             </div>
             <div class="col-folders" id="folderColumn">
+                <div class="resize-bar-left" id="resizeBar-left"></div>
+                <!-- Home / Search Button -->
+                <div class="home-bar">
+                    <div class="home-button" onclick="homeButton()">
+                        <span>H</span>
+                    </div>
+                    <div class="search-button">
+                        <span>S</span>
+                    </div>
+                </div>
                 <!-- Favourite Songs -->
                 <div onclick="openFavourites()" class="folder-element border-hover-tertiary">
                     <img src="/src/assets/icons/icon-folder.svg" alt="">
                     <p>Favourites</p>
                 </div>
-                <div class="resize-bar-left" id="resizeBar-left"></div>
             </div>
             <div class="row-soundbar">
                 <audio id="audioPlayer"></audio>

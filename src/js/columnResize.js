@@ -1,6 +1,6 @@
-let resizeBarLeft = document.getElementById('resizeBar-left')
+let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
-let columnWidth = [20, 55, 25]
+let columnWidth    = [20, 55, 25]
 
 resizeBarRight.addEventListener('mousedown', setResize)
 resizeBarRight.addEventListener('mouseup', endResize)

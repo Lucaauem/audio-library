@@ -51,10 +51,11 @@ p{
 
 /* -- Folder Column -- */
 .folder-element{
-    transition: background-color 0.1s;
     display: flex;
-    height: clamp(50px, 7.5%, 75px);
     align-items: center;
+    transition: background-color 0.1s;
+    height: clamp(50px, 7.5%, 75px);
+    overflow: hidden;
 }
 
 .folder-element > img{
@@ -63,4 +64,24 @@ p{
 
 .active{
     color: green !important;
+}
+
+.home-bar{
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.home-button, .search-button{
+    display: flex;
+    justify-content: center;
+}
+
+.home-button{
+    width: clamp(30px, 20%, 40px)
+}
+
+.home-button > span, .search-button > span{
+    cursor: pointer;
+    width: fit-content;
 }

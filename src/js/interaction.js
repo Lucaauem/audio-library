@@ -28,13 +28,21 @@ function createSongListElement(file, path){
 
 function addFolders(){
     let folderColumn = document.getElementById('folderColumn')
+    let div = document.createElement('div')
+    let img = document.createElement('img')
+    let p = document.createElement('p')
+    div.classList.add('folder-element')
+    div.classList.add('border-hover-tertiary')
+    img.alt = ''
+    img.src = '/src/assets/icons/icon-folder.svg'
 
     folders.forEach(folder => {
-        folderColumn.innerHTML += `
-        <div onclick="openFolder('` + folder + `')" class="folder-element border-hover-tertiary">
-            <img src="/src/assets/icons/icon-folder.svg" alt="">
-            <p>` + folder + `</p>
-        </div>`
+        div.setAttribute('onclick', 'openFolder("' + folder + '")')
+        p.textContent = folder
+        folderColumn.appendChild(div)
+
+        div.appendChild(img)
+        div.appendChild(p)
     })
 }
 
@@ -79,4 +87,13 @@ function openFavourites(){
     folders      = null
 
     updateFilesShown(audioFileObj)
+}
+
+function homeButton(){
+    audioFileObj = JSON.parse(httpGet('audio-files'))
+    filePath     = audioFileObj.path
+    audioFiles   = audioFileObj.files
+    folders      = audioFileObj.folders
+
+    updateFilesShown(audioFiles)
 }
