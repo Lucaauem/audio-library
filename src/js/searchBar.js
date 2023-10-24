@@ -1,34 +1,47 @@
 class SearchBar{
     #SEARCH_BAR   = null
     #HTTP_REQUEST = null
+    #allFiles     = {}
     #content      = []
 
     constructor(id, httpFileRequest){
         this.#SEARCH_BAR   = document.getElementById(id)
         this.#HTTP_REQUEST = httpFileRequest
 
-        this.#SEARCH_BAR.addEventListener('input', this.updateSearch)
-        this.#SEARCH_BAR.addEventListener('focus', this.startSearch)
-        this.#SEARCH_BAR.addEventListener('blur', this.stopSearch)
+        this.#SEARCH_BAR.addEventListener('input', this.updateSearch.bind(this))
+        this.#SEARCH_BAR.addEventListener('focus', this.startSearch.bind(this))
+        this.#SEARCH_BAR.addEventListener('blur',  this.stopSearch.bind(this))
     }
 
-    updateSearch(){
-        console.log(1)
+    updateSearch(){  
+        // Remove content with different name
+        Object.keys(this.#allFiles).forEach(filePath => {
+            let fileName = this.#allFiles[filePath]
+            
+            if(fileName.includes(this.#SEARCH_BAR.value)){
+                this.#content.push(fileName)
+            }
+        })
     }
     startSearch(){
         // Get content
-        let content = this.updateSearch()
+        this.#allFiles = this.httpFileRequest()
 
-        // Sort content
+        // Sort content !TODO!
+
+        // Add to content
+        Object.keys(this.#allFiles).forEach(filePath => {
+            this.#content.push(this.#allFiles[filePath])
+        })
+        console.log(this.#content)
     }
     stopSearch(){
-        console.log(3)
     }
 
-    re(){
+    httpFileRequest(){
         var xmlHttp = new XMLHttpRequest()
-        xmlHttp.open(this.HTTP_REQUEST, url, false)
+        xmlHttp.open("GET", this.#HTTP_REQUEST, false)
         xmlHttp.send(null)
-        return xmlHttp.responseText
+        return JSON.parse(xmlHttp.responseText)
     }
 }

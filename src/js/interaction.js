@@ -29,19 +29,19 @@ function createSongListElement(file, path){
 
 function addFolders(){
     let folderColumn = document.getElementById('folderColumn')
-    let div = document.createElement('div')
-    let img = document.createElement('img')
-    let p = document.createElement('p')
-    div.classList.add('folder-element')
-    div.classList.add('border-hover-tertiary')
-    img.alt = ''
-    img.src = '/src/assets/icons/icon-folder.svg'
 
     folders.forEach(folder => {
+        let div = document.createElement('div')
+        let img = document.createElement('img')
+        let p   = document.createElement('p')
         div.setAttribute('onclick', 'openFolder("' + folder + '")')
+        div.classList.add('folder-element')
+        div.classList.add('border-hover-tertiary')
+        img.alt = ''
+        img.src = '/src/assets/icons/icon-folder.svg'
         p.textContent = folder
-        folderColumn.appendChild(div)
 
+        folderColumn.appendChild(div)
         div.appendChild(img)
         div.appendChild(p)
     })

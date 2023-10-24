@@ -8,10 +8,10 @@ const PORT               = 8080
 const FILE_PATH          = './files'
 const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
-const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH)
+const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH, './files')
 
 app.use(express.static(process.cwd()))
-
+console.clear()
 
 // Get favourites
 app.get('/get-favourite-songs', (req, res) => {
@@ -25,10 +25,9 @@ app.get('/get-favourite-list', (req, res) => {
 
 // Get all files
 app.get('/get-all-files', (req, res) => {
-    let filesObj = {}
-    let filesRaw = fs.readdirSync(FILE_PATH)
-    console.log(filesRaw)
-    res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
+    let filesObj = FILE_SYSTEM.getAllFiles()
+
+    res.send(filesObj)
 })
 
 // Get audio files

@@ -6,12 +6,14 @@ class FileSystem{
     #ALLOWED_EXTENSIONS = []
     #FILE_PATH          = ''
     #FAVOURITES_PATH    = ''
+    #BASE_PATH          = ''
     #source             = ''
 
-    constructor(filePath, allowedExtensions, favouritesPath){
+    constructor(filePath, allowedExtensions, favouritesPath, basePath){
         this.#ALLOWED_EXTENSIONS = allowedExtensions
         this.#FILE_PATH          = filePath
         this.#FAVOURITES_PATH    = favouritesPath
+        this.#BASE_PATH          = basePath
     }
 
     async getAudioFiles(folder){
@@ -111,6 +113,33 @@ class FileSystem{
         fileObjects.push(obj)
     
         return this.#readFavourite(fileObjects, paths, index + 1)
+    }
+
+    getAllFiles(){
+        let files = fs.readdirSync(this.#BASE_PATH)
+        let fileObj = {}
+        
+        files.forEach(file => {
+            let filePath       = this.#BASE_PATH + '/' + file
+            let fileStats      = fs.statSync(filePath)
+            
+            if(fileStats.isDirectory()){
+                this.#getAllFiles_helper(file, fileObj)
+            }else{
+                fileObj[filePath] = file
+            }
+        })
+        return fileObj
+    }
+    #getAllFiles_helper(folder, fileObj){
+        let folderPath = this.#BASE_PATH + '/' + folder
+        let files      = fs.readdirSync(folderPath)
+        
+        files.forEach(file => {
+            let filePath      = folderPath + '\\' + file
+            fileObj[filePath] = file
+        })
+        return fileObj
     }
 }
 
