@@ -17,9 +17,12 @@ p{
     margin: 0;
 }
 
+.border-hover-secondary{
+    border-radius: 10px;
+}
+
 .border-hover-secondary:hover{
     cursor: pointer;
-    border-radius: 10px;
     background-color: var(--secondary-dark);
 }
 

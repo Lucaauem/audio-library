@@ -1,7 +1,12 @@
+const LEFT_COL_MIN_WIDTH  = 5
+const MID_COL_MIN_WIDTH   = 25
+const RIGHT_COL_MIN_WIDTH = 10
+
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
 let columnWidth    = [20, 55, 25]
 
+window.addEventListener('mouseup', endResize)
 resizeBarRight.addEventListener('mousedown', setResize)
 resizeBarRight.addEventListener('mouseup', endResize)
 resizeBarLeft.addEventListener('mousedown', setResize)
@@ -16,21 +21,17 @@ function setResize(event){
         window.addEventListener('mousemove', resizeLeft)
     }else{
         window.addEventListener('mousemove', resizeRight)
-    }
-    
+    }   
 }
 
 function endResize(event){
-    if(event.srcElement.id == 'resizeBar-left'){
-        window.removeEventListener('mousemove', resizeLeft)
-    }else{
-        window.removeEventListener('mousemove', resizeRight)
-    }
+    window.removeEventListener('mousemove', resizeLeft)
+    window.removeEventListener('mousemove', resizeRight)
 }
 
 function resizeLeft(event){
     let mousePos = (event.x / window.innerWidth) * 100
-    if(mousePos < 2){
+    if((mousePos < LEFT_COL_MIN_WIDTH) || ((100 - mousePos - columnWidth[2]) < MID_COL_MIN_WIDTH)){
         return
     }
 
@@ -42,7 +43,7 @@ function resizeLeft(event){
 function resizeRight(event){
     let mousePos = (event.x / window.innerWidth) * 100
 
-    if(mousePos > 98){
+    if((mousePos > (100 - RIGHT_COL_MIN_WIDTH)) || ((mousePos - columnWidth[0]) < MID_COL_MIN_WIDTH)){
         return
     }
 
