@@ -23,8 +23,10 @@ class SearchBar{
                 this.#content.push(fileName)
             }
         })
-        console.log(this.#content)
+
+        // Show content in file list !TODO!
     }
+
     startSearch(){
         // Get content
         this.#allFiles = this.httpFileRequest()
@@ -36,8 +38,8 @@ class SearchBar{
         Object.keys(this.#allFiles).forEach(filePath => {
             this.#content.push(this.#allFiles[filePath])
         })
-        console.log(this.#content)
     }
+
     stopSearch(){
     }
 

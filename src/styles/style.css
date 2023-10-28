@@ -1,7 +1,7 @@
 :root{
     --primary-dark: -1;
-    --secondary-dark: -1;
-    --tertiary-dark : rgb(63, 63, 63)
+    --secondary-dark: rgb(81, 81, 81);
+    --tertiary-dark : rgb(63, 63, 63);
 }
 
 html, body{
@@ -10,16 +10,17 @@ html, body{
     font-family: Arial;
     color:white;
     background-color: black;
+    user-select: none;
 }
 
 p{
     margin: 0;
 }
 
-.border-hover-tertiary:hover{
+.border-hover-secondary:hover{
     cursor: pointer;
     border-radius: 10px;
-    background-color: var(--tertiary-dark);
+    background-color: var(--secondary-dark);
 }
 
 .file-list-item{
@@ -62,38 +63,57 @@ p{
     max-height: 100%;
 }
 
-.active{
+.active-text{
     color: green !important;
+}
+
+.active-element{
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: var(--tertiary-dark);
 }
 
 /* -- Home Bar -- */
 .home-bar{
     display: flex;
     align-items: center;
+    padding: 10px 0px;
     height: 30px;
 }
 
 .home-button, .search-bar{
+    height: 100%;
     display: flex;
     justify-content: center;
 }
 
 .home-button{
-    width: clamp(30px, 20%, 40px)
+    max-width: 100px;
+    width: 20%;
+    min-width: 50px;
+}
+.home-button > img{
+    transition: all 0.05s;
+    cursor: pointer;
 }
 
-.home-button > span, .search-bar > span{
-    cursor: pointer;
+.home-button > img, .search-bar > img{
+    height: 100%;
     width: fit-content;
+}
+
+.home-button > img:hover{
+    scale: 1.1;
 }
 
 .search-bar{
     display: flex;
+    position: relative;
     flex-grow: 1;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .search-bar > input{
-    width: clamp(50px, 50%, 50%)
+    width: 70%
 }
