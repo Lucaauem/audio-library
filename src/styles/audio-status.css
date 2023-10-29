@@ -91,15 +91,7 @@
     width: 20%;
 }
 
-.song-process-bar{
-    height: 5px;
-    width: 60%;
-    border-radius: 15px;
-    border-width: 1px;
-    border-style: solid;
-}
-
-.song-process-bar{
-    background-color: rgb(42, 42, 42);
-    border-color:rgb(42, 42, 42);
+.song-process-slider{
+    display: flex;
+    flex-grow: 1;
 }

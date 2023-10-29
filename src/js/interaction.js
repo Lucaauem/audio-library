@@ -10,7 +10,7 @@ let sources      = []
 updateFilesShown(audioFiles)
 addFolders()
 
-const AUDIO_PLAYER = new AudioPlayer('audioPlayer', sources)
+const AUDIO_PLAYER = new AudioPlayer('audioPlayer', 'songProcessSlider', sources)
 const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
 
 function createSongListElement(file, path){
