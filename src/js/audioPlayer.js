@@ -1,25 +1,26 @@
 class AudioPlayer{
-    ALL_SONGS       = []
-    TIMER_STEPS_MS  = 25
-    currentPlayTime = 0
-    source          = null
-    audio           = null
-    processSlider   = null
-    timerInterval   = null
+    TIMER_STEPS_MS    = 25
+    PREV_THRESHOLD_MS = 500
+    currentPlayTime   = 0
+    songIndex         = 0
+    source            = null
+    audio             = null
+    processSlider     = null
+    timerInterval     = null
     
-    constructor(audioPlayerId, songSliderId, allSources){
+    constructor(audioPlayerId, songSliderId){
         this.audio = document.getElementById(audioPlayerId)
         this.audio.addEventListener('ended', this.songEnd.bind(this))
         this.processSlider = document.getElementById(songSliderId)
-        this.processSlider.addEventListener('input', this.changePlaytime.bind(this))
+        this.processSlider.addEventListener('input', this.selectPlaytime.bind(this))
         this.processSlider.value = 0
-        this.ALL_SONGS = allSources
     }
 
-    changeSource(src, name, duration){
-        this.source = src
-        this.audio.source = src
+    changeSource(src, name, duration, index){
+        this.source          = src
+        this.audio.source    = src
         this.currentPlayTime = 0
+        this.songIndex       = index
         
         document.getElementById('songName').innerHTML = name
         document.getElementById('songDurationTime').innerHTML = duration
@@ -57,13 +58,17 @@ class AudioPlayer{
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
     }
 
-    changePlaytime(){
+    selectPlaytime(){
         if(this.source == null){
             return
         }
 
+        this.changePlaytime(this.processSlider.value)
+    }
+
+    changePlaytime(value){
         // Convert the selected time into a multiple of the current timer step
-        let selectedTimeInMs = (this.audio.duration * (parseInt(this.processSlider.value) / 100)) * 1000
+        let selectedTimeInMs = (this.audio.duration * (parseInt(value) / 100)) * 1000
         let correctStepTime  = parseInt(selectedTimeInMs / this.TIMER_STEPS_MS) * this.TIMER_STEPS_MS
 
         // Update audio player and playtime string
@@ -73,17 +78,48 @@ class AudioPlayer{
     }
 
     next(){
+        if(this.source == null){
+            return
+        }
+
+        // Get all songs and select the next
+        let allSongsInfo = JSON.parse(httpGet('audio-files'))
+        let allSongFiles = allSongsInfo.files
+        this.songIndex   = (this.songIndex + 1) % allSongFiles.length
+        let nextSong     = allSongFiles[this.songIndex]
+        let nextPath     = allSongsInfo.path + '/' + nextSong.name_full
+
+        this.changeSource(nextPath, nextSong.name, nextSong.duration, this.songIndex)
+        
+        // Start the next song
+        this.play()
+        this.play()
     }
 
     previous(){
-    }
+        if(this.source == null){
+            return
+        }
 
-    pause(){
+        // Skip to start of the next if playtime > PREV_THRESHOLD
+        if(this.currentPlayTime > this.PREV_THRESHOLD_MS){
+            this.changePlaytime(0)
+            return
+        }
 
-    }
+        // Get all songs and select the previous
+        let allSongsInfo  = JSON.parse(httpGet('audio-files'))
+        let allSongFiles  = allSongsInfo.files
+        let previousIndex = this.songIndex - 1
+        this.songIndex    = previousIndex < 0 ? allSongFiles.length - 1 : previousIndex
+        let nextSong      = allSongFiles[this.songIndex]
+        let nextPath      = allSongsInfo.path + '/' + nextSong.name_full
 
-    resume(){
+        this.changeSource(nextPath, nextSong.name, nextSong.duration, this.songIndex)
 
+        // Start the next song
+        this.play()
+        this.play()
     }
 
     mute(){
