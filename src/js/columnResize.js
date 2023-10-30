@@ -1,10 +1,13 @@
-const LEFT_COL_MIN_WIDTH  = 5
-const MID_COL_MIN_WIDTH   = 25
-const RIGHT_COL_MIN_WIDTH = 10
+const LEFT_COL_MIN_WIDTH     = 5
+const MID_COL_MIN_WIDTH      = 25
+const RIGHT_COL_MIN_WIDTH    = 10
 
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
 let columnWidth    = [20, 55, 25]
+
+let columnLeft = document.getElementById('folderColumn')
+let columnRight = null
 
 window.addEventListener('mouseup', endResize)
 resizeBarRight.addEventListener('mousedown', setResize)
@@ -14,6 +17,10 @@ resizeBarLeft.addEventListener('mouseup', endResize)
 
 let mouseInitialPos = -1
 let onResize = false
+
+// Check for styling
+updateStylingLeft()
+
 function setResize(event){
     mouseInitialPos = event.x
 
@@ -34,10 +41,13 @@ function resizeLeft(event){
     if((mousePos < LEFT_COL_MIN_WIDTH) || ((100 - mousePos - columnWidth[2]) < MID_COL_MIN_WIDTH)){
         return
     }
-
-    columnWidth = [mousePos, 100 - mousePos - columnWidth[2], columnWidth[2]]
-
+    
+    // Change size
+    columnWidth      = [mousePos, 100 - mousePos - columnWidth[2], columnWidth[2]]
     document.getElementById('mainContainer').style.gridTemplateColumns = columnWidth[0] + '% ' + columnWidth[1] +'% ' + columnWidth[2] + '%'
+    
+    // Change styling
+    updateStylingLeft()
 }
 
 function resizeRight(event){
@@ -47,7 +57,21 @@ function resizeRight(event){
         return
     }
 
+    // Change size
     columnWidth = [columnWidth[0], mousePos - columnWidth[0], 100 - mousePos]
-
     document.getElementById('mainContainer').style.gridTemplateColumns = columnWidth[0] + '% ' + columnWidth[1] +'% ' + columnWidth[2] + '%'
+}
+
+function updateStylingLeft(){
+    if(columnLeft.offsetWidth > 175){ // Large
+        document.getElementById('searchBarWrapper').classList.remove('search-bar-medium')
+        document.getElementById('homeButton').classList.remove('home-button-small')
+        document.getElementById('homeBar').classList.remove('home-bar-small')
+    }else if(columnLeft.offsetWidth > 100){ // Medium
+        document.getElementById('searchBarWrapper').classList.add('search-bar-medium')
+        document.getElementById('homeButton').classList.add('home-button-small')
+        document.getElementById('homeBar').classList.remove('home-bar-small')        
+    }else { // Small
+        document.getElementById('homeBar').classList.add('home-bar-small')
+    }
 }

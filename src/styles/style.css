@@ -95,18 +95,13 @@ p{
     width: 20%;
     min-width: 50px;
 }
-.home-button > img{
-    transition: all 0.05s;
-    cursor: pointer;
+.home-button-small{
+    width: 50%;
 }
 
 .home-button > img, .search-bar > img{
     height: 100%;
     width: fit-content;
-}
-
-.home-button > img:hover{
-    scale: 1.1;
 }
 
 .search-bar{
@@ -119,4 +114,43 @@ p{
 
 .search-bar > input{
     width: 70%
+}
+
+.search-bar-medium{
+    justify-content: center;
+}
+.search-bar-medium > input{
+    display: none;
+}
+
+.home-bar-small{
+    flex-direction: column;
+    height: 80px;
+}
+
+.home-bar-small > div:nth-child(1){
+    padding: 0px 2px 5px;
+}
+.home-bar-small > div:nth-child(2){
+    height: 50%;
+    padding: 5px 2px 0px;
+}
+
+.home-button > img, .search-bar-medium > img{
+    transition: all 0.05s;
+    cursor: pointer;
+}
+
+.home-button > img:hover, .search-bar-medium > img:hover{
+    scale: 1.1;
+}
+
+.like-icon{
+    transition: scale 0.05s;
+    height: 25px;
+}
+
+.like-icon:hover{
+    cursor: pointer;
+    scale: 1.1;
 }

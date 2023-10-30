@@ -14,8 +14,8 @@ const AUDIO_PLAYER = new AudioPlayer('audioPlayer', 'songProcessSlider', sources
 const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
 
 function createSongListElement(file, path, index){
-    favouritesPaths = Object.keys(JSON.parse(httpGet('get-favourite-list')))
-    let isFavourite = favouritesPaths.includes(path) ? 'active-text' : ''
+    favouritesPaths   = Object.keys(JSON.parse(httpGet('get-favourite-list')))
+    let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
     document.getElementById('fileList').innerHTML += `
         <div class="file-list-item border-hover-secondary" onclick="selectSong('` + file.name_full + `', '` + file.name + `', '` + file.duration + `',` + index + `)">
             <div>
@@ -23,7 +23,7 @@ function createSongListElement(file, path, index){
                 <p>` + file.duration + `</p>
             </div>
             <div class="file-list-item-fav">
-                <p onclick="toggleFavourite('` + path + `', this)" class="` + isFavourite + `">Fav</p>
+                <img onclick="toggleFavourite('` + path + `', this)" class="like-icon" src="/src/assets/icons/like-icon` + activeIconSrc + `.svg">
             </div>
         </div>`
 }
@@ -86,7 +86,13 @@ function selectSong(name, nameNoExtension, duration, index){
 
 function toggleFavourite(path, dom){
     httpGet('favourite-song/' + path) // Update .json
-    dom.classList.toggle('active-text')
+    
+    // Update icon
+    if(dom.getAttribute('src').includes('active')){
+        dom.setAttribute('src', '/src/assets/icons/like-icon.svg')
+    }else{
+        dom.setAttribute('src', '/src/assets/icons/like-icon-active.svg')
+    }
 }
 
 function openFavourites(folderDOM){
