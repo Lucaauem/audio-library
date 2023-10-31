@@ -154,3 +154,7 @@ p{
     cursor: pointer;
     scale: 1.1;
 }
+
+.like-icon:active{
+    scale: 1;
+}

@@ -16,8 +16,9 @@ const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
 function createSongListElement(file, path, index){
     favouritesPaths   = Object.keys(JSON.parse(httpGet('get-favourite-list')))
     let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
+
     document.getElementById('fileList').innerHTML += `
-        <div class="file-list-item border-hover-secondary" onclick="selectSong('` + file.name_full + `', '` + file.name + `', '` + file.duration + `',` + index + `)">
+        <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `)">
             <div>
                 <p>` + file.name + `</p>
                 <p>` + file.duration + `</p>
@@ -78,10 +79,8 @@ function openFolder(folder, folderDOM){
     updateFilesShown(audioFiles)
 }
 
-function selectSong(name, nameNoExtension, duration, index){
-    let source = filePath + '/' + name
-
-    AUDIO_PLAYER.changeSource(source, nameNoExtension, duration, index)
+function selectSong(path, nameNoExtension, duration, index){
+    AUDIO_PLAYER.changeSource(path, nameNoExtension, duration, index)
 }
 
 function toggleFavourite(path, dom){
@@ -98,7 +97,7 @@ function toggleFavourite(path, dom){
 function openFavourites(folderDOM){
     audioFileObj = JSON.parse(httpGet('get-favourite-songs'))
     filePath     = null
-    audioFiles   = audioFileObj.files
+    audioFiles   = null
     folders      = null
 
     // Highlight folder
@@ -108,7 +107,21 @@ function openFavourites(folderDOM){
     activeElement = folderDOM
     activeElement.classList.add('active-element')
 
-    updateFilesShown(audioFileObj)
+    updateFavouriteFilesShown(audioFileObj)
+}
+
+function updateFavouriteFilesShown(audioFiles){
+    // Reset variables
+    sources = []
+    document.getElementById('fileList').innerHTML = ''
+
+    // Update UI
+    index = 0
+    audioFiles.forEach(file => {
+        sources.push(filePath + '/' + file.name_full)
+        createSongListElement(file, file.path, index)
+        index++
+    })
 }
 
 function homeButton(){

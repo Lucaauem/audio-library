@@ -91,7 +91,8 @@ class FileSystem{
             'name_full' : '',
             'type' : '',
             'duration' : '',
-            'size' : -1
+            'size' : -1,
+            'path' : ''
         }
     
         let duration = await getAudioDurationInSeconds(filePath).then((time) => {
@@ -109,6 +110,7 @@ class FileSystem{
         obj.name_full = fileName
         obj.duration  = duration
         obj.size      = (fileStats.size / 1000000).toFixed(2) // byte -> Mbyte
+        obj.path      = filePath
     
         fileObjects.push(obj)
     
