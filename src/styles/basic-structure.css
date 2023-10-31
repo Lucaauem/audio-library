@@ -1,7 +1,7 @@
 .container{
     display: grid;
     height: 100%;
-    grid-template-columns: 20% 55% 25%;
+    grid-template-columns: 22.5% 55% 22.5%;
     grid-template-rows: calc(100% - 75px) 75px;
 }
 

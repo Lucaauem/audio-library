@@ -4,7 +4,7 @@ const RIGHT_COL_MIN_WIDTH    = 10
 
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
-let columnWidth    = [20, 55, 25]
+let columnWidth    = [22.5, 55, 22.5]
 
 let columnLeft = document.getElementById('folderColumn')
 let columnRight = null

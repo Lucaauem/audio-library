@@ -158,3 +158,44 @@ p{
 .like-icon:active{
     scale: 1;
 }
+
+/* -- Search Popup -- */
+.search-popup-frame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    background-color: var(--primary-dark);
+    border: 2.5px solid var(--secondary-dark);
+    border-radius: 20px;
+    height: 3.5rem;
+    width: 50%;
+    padding: 0px 5px 0px
+}
+
+.search-popup-frame > input{
+    color: white;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    width: 92.5%;
+    height: 60%;
+    font-size: 1.1rem;
+}
+
+.search-popup-frame > img{
+    transition: scale 0.05s;
+    height: 60%;
+}
+
+.search-popup-frame > img:hover{
+    cursor: pointer;
+    scale: 1.1;
+}
+
+.search-popup-frame > img:active{
+    scale: 1;
+}
