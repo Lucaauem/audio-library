@@ -138,3 +138,27 @@ function homeButton(){
 
     updateFilesShown(audioFiles)
 }
+
+function showSearchPopup(){
+    document.getElementById('lowlightFrame').style.display = 'block'
+    document.getElementById('searchPopup').classList.add('search-popup-show')
+
+    document.body.addEventListener('keydown', keypressEvents)
+    SEARCH_BAR.startSearch()
+}
+
+function hideSearchPopup(){
+    document.getElementById('lowlightFrame').style.display = 'none'
+    document.getElementById('searchPopup').classList.remove('search-popup-show')
+
+    document.body.removeEventListener('keydown', keypressEvents)
+}
+
+function keypressEvents(event){
+    if(event.key == 'Enter'){
+        hideSearchPopup()
+        SEARCH_BAR.updateSearch(document.getElementById('searchPopupInput').value)
+    }else if(event.key == 'Escape'){
+        hideSearchPopup()
+    }
+}

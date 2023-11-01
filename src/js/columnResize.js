@@ -43,7 +43,7 @@ function resizeLeft(event){
     }
     
     // Change size
-    columnWidth      = [mousePos, 100 - mousePos - columnWidth[2], columnWidth[2]]
+    columnWidth = [mousePos, 100 - mousePos - columnWidth[2], columnWidth[2]]
     document.getElementById('mainContainer').style.gridTemplateColumns = columnWidth[0] + '% ' + columnWidth[1] +'% ' + columnWidth[2] + '%'
     
     // Change styling
@@ -64,10 +64,12 @@ function resizeRight(event){
 
 function updateStylingLeft(){
     if(columnLeft.offsetWidth > 175){ // Large
+        document.getElementById('searchIcon').removeAttribute('onclick')
         document.getElementById('searchBarWrapper').classList.remove('search-bar-medium')
         document.getElementById('homeButton').classList.remove('home-button-small')
         document.getElementById('homeBar').classList.remove('home-bar-small')
     }else if(columnLeft.offsetWidth > 100){ // Medium
+        document.getElementById('searchIcon').setAttribute('onclick', 'showSearchPopup()')
         document.getElementById('searchBarWrapper').classList.add('search-bar-medium')
         document.getElementById('homeButton').classList.add('home-button-small')
         document.getElementById('homeBar').classList.remove('home-bar-small')        

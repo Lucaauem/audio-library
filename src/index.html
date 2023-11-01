@@ -22,7 +22,7 @@
                         <img src="/src/assets/icons/icon-home.svg" alt="">
                     </div>
                     <div class="search-bar" id="searchBarWrapper">
-                        <img src="/src/assets/icons/icon-search.svg" alt="">
+                        <img id="searchIcon" src="/src/assets/icons/icon-search.svg" alt="">
                         <input type="text" id="searchBar">
                     </div>
                 </div>
@@ -51,8 +51,9 @@
             </div>
         </div>
 
-        <div class="search-popup-frame">
-            <input type="text" name="" id="">
+        <div onclick="hideSearchPopup()" id="lowlightFrame" class="lowlight-frame"></div>
+        <div id="searchPopup" class="search-popup-frame">
+            <input id="searchPopupInput" type="text">
             <img src="/src/assets/icons/icon-search.svg" alt="">
         </div>
     </body>

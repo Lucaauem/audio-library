@@ -25,10 +25,29 @@ app.get('/get-favourite-list', (req, res) => {
 
 // Get all files
 app.get('/get-all-files', (req, res) => {
-    let filesObj = FILE_SYSTEM.getAllFiles()
+    let folders = ['']
 
-    res.send(filesObj)
+    fs.readdirSync(FILE_PATH).forEach(file => {
+        let stats = fs.statSync(FILE_PATH + '/' + file)
+
+        if(stats.isDirectory()){
+            folders.push(file)
+        }
+    })
+    
+    getAllFiles(folders).then(files => { res.send(files )})
 })
+
+async function getAllFiles(folders){
+    let allFiles = []
+
+    for await (const folder of folders){
+        let currentFile = await FILE_SYSTEM.getAudioFiles(folder)
+        allFiles.push(currentFile[0])
+    }
+
+    return allFiles
+}
 
 // Get audio files
 app.get(new RegExp('(audio-files).*'), (req, res) => {
