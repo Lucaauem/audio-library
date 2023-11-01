@@ -54,7 +54,7 @@
         <div onclick="hideSearchPopup()" id="lowlightFrame" class="lowlight-frame"></div>
         <div id="searchPopup" class="search-popup-frame">
             <input id="searchPopupInput" type="text">
-            <img src="/src/assets/icons/icon-search.svg" alt="">
+            <img onclick="keypressEvents({ key: 'Enter' })" src="/src/assets/icons/icon-search.svg" alt="">
         </div>
     </body>
     <script>

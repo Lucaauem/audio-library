@@ -83,13 +83,13 @@ class AudioPlayer{
         }
 
         // Get all songs and select the next
-        let allSongsInfo = JSON.parse(httpGet('audio-files'))
-        let allSongFiles = allSongsInfo.files
-        this.songIndex   = (this.songIndex + 1) % allSongFiles.length
-        let nextSong     = allSongFiles[this.songIndex]
-        let nextPath     = allSongsInfo.path + '/' + nextSong.name_full
+        let currentSongsDOM = Array.from(document.getElementById('fileList').childNodes).filter(file => file.tagName == 'DIV')
+        this.songIndex      = (this.songIndex + 1) % currentSongsDOM.length
 
-        this.changeSource(nextPath, nextSong.name, nextSong.duration, this.songIndex)
+        let nextSongDOM    = currentSongsDOM[this.songIndex]
+        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
+
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex)
         
         // Start the next song
         this.play()
@@ -108,14 +108,14 @@ class AudioPlayer{
         }
 
         // Get all songs and select the previous
-        let allSongsInfo  = JSON.parse(httpGet('audio-files'))
-        let allSongFiles  = allSongsInfo.files
-        let previousIndex = this.songIndex - 1
-        this.songIndex    = previousIndex < 0 ? allSongFiles.length - 1 : previousIndex
-        let nextSong      = allSongFiles[this.songIndex]
-        let nextPath      = allSongsInfo.path + '/' + nextSong.name_full
+        let currentSongsDOM = Array.from(document.getElementById('fileList').childNodes).filter(file => file.tagName == 'DIV')
+        let previousIndex   = this.songIndex - 1
+        this.songIndex      = previousIndex < 0 ? currentSongsDOM.length - 1 : previousIndex
 
-        this.changeSource(nextPath, nextSong.name, nextSong.duration, this.songIndex)
+        let nextSongDOM    = currentSongsDOM[this.songIndex]
+        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
+
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex)
 
         // Start the next song
         this.play()

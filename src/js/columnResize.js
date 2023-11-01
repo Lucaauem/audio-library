@@ -63,17 +63,19 @@ function resizeRight(event){
 }
 
 function updateStylingLeft(){
-    if(columnLeft.offsetWidth > 175){ // Large
-        document.getElementById('searchIcon').removeAttribute('onclick')
-        document.getElementById('searchBarWrapper').classList.remove('search-bar-medium')
-        document.getElementById('homeButton').classList.remove('home-button-small')
-        document.getElementById('homeBar').classList.remove('home-bar-small')
-    }else if(columnLeft.offsetWidth > 100){ // Medium
-        document.getElementById('searchIcon').setAttribute('onclick', 'showSearchPopup()')
-        document.getElementById('searchBarWrapper').classList.add('search-bar-medium')
-        document.getElementById('homeButton').classList.add('home-button-small')
-        document.getElementById('homeBar').classList.remove('home-bar-small')        
-    }else { // Small
-        document.getElementById('homeBar').classList.add('home-bar-small')
-    }
+    // Large
+    document.getElementById('searchIcon').removeAttribute('onclick')
+    document.getElementById('searchBarWrapper').classList.remove('search-bar-medium')
+    document.getElementById('homeButton').classList.remove('home-button-small')
+    document.getElementById('homeBar').classList.remove('home-bar-small')
+    if(columnLeft.offsetWidth > 175){ return }
+
+    // Medium
+    document.getElementById('searchIcon').setAttribute('onclick', 'showSearchPopup()')
+    document.getElementById('searchBarWrapper').classList.add('search-bar-medium')
+    document.getElementById('homeButton').classList.add('home-button-small')
+    document.getElementById('homeBar').classList.remove('home-bar-small')        
+    if(columnLeft.offsetWidth > 100){ return }
+    
+    document.getElementById('homeBar').classList.add('home-bar-small')
 }
