@@ -82,6 +82,7 @@ p{
     align-items: center;
     padding: 10px 0px;
     height: 30px;
+    border-bottom: 2px solid var(--secondary-dark);
 }
 
 .home-button, .search-bar{
@@ -216,4 +217,71 @@ p{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+/* -- Config Buttons / Window -- */
+.row-config{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: 50%;
+    width: 100%;
+
+    border-bottom: 2px solid var(--secondary-dark);
+}
+
+.row-config > button{
+    transition: all 0.1s;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    height: 10%;
+    border: 2px solid var(--secondary-dark);
+    border-radius: 10px;
+    background-color: transparent;
+    margin: 10px;
+}
+
+.row-config > button:hover{
+    background-color: var(--secondary-dark);
+}
+
+.row-config > button:active{
+    background-color: var(--tertiary-dark);
+}
+
+.row-file-info{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: 50%;
+    width: calc(100% - 15px);
+    margin-left: 10px;
+}
+
+.row-file-info > p, .row-file-info > h6{
+    max-width: 100%;
+}
+
+.file-info-data{
+    display: flex;
+}
+
+.file-info-data-names{
+    min-width: fit-content;
+    width: 90px;
+}
+
+.file-info-data-stats > .unknown{
+    font-style: italic;
+    opacity: 0.5;
+}
+
+.file-info-data-names > p, .file-info-data-stats > p{
+    margin: 5px 0px;
 }

@@ -19,6 +19,7 @@ let mouseInitialPos = -1
 let onResize = false
 
 // Check for styling
+window.addEventListener('resize', () => { updateStylingLeft() })
 updateStylingLeft()
 
 function setResize(event){

@@ -23,6 +23,7 @@
 .col-info{
     grid-area: 1 / 3 / 2 / 4;
     margin-right: 5px;
+    position: relative;
 }
 
 .col-folders{

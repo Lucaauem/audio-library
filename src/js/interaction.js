@@ -18,7 +18,7 @@ function createSongListElement(file, path, index){
     let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
 
     document.getElementById('fileList').innerHTML += `
-        <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `)">
+        <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `','` + file.name + `','` + file.duration + `',` + index + `,'` + file.type + `','` + file.size + `')">
             <div>
                 <p>` + file.name + `</p>
                 <p>` + file.duration + `</p>
@@ -79,8 +79,8 @@ function openFolder(folder, folderDOM){
     updateFilesShown(audioFiles)
 }
 
-function selectSong(path, nameNoExtension, duration, index){
-    AUDIO_PLAYER.changeSource(path, nameNoExtension, duration, index)
+function selectSong(path, nameNoExtension, duration, index, extension, size){
+    AUDIO_PLAYER.changeSource(path, nameNoExtension, duration, index, extension, size)
 }
 
 function toggleFavourite(path, dom){

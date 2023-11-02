@@ -10,9 +10,38 @@
     </head>
     <body>
         <div class="container" id="mainContainer">
+            <!-- Files -->
             <div class="col-files" id="fileList"></div>
+            <!-- File Info / Config Buttons -->
             <div class="col-info">
                 <div class="resize-bar-right" id="resizeBar-right"></div>
+                <div class="row-config">
+                    <button>Add File</button>
+                    <button>Remove File</button>
+                    <button>Add Folder</button>
+                    <button>Remove Folder</button>
+                    <button>Open File Directory</button>
+                    <button>Change Config</button>
+                </div>
+                <div id="rowFileInfo" class="row-file-info">
+                    <h1 id="fileInfo-0">Lorem</h1>
+                    <div class="file-info-data">
+                        <div class="file-info-data-names">
+                            <p>Name</p>
+                            <p>Path</p>
+                            <p>Extension</p>
+                            <p>Length</p>
+                            <p>Filesize</p>
+                        </div>
+                        <div class="file-info-data-stats">
+                            <p id="fileInfo-1" class="unknown">unknown</p>
+                            <p id="fileInfo-2" class="unknown">unknown</p>
+                            <p id="fileInfo-3" class="unknown">unknown</p>
+                            <p id="fileInfo-4" class="unknown">unknown</p>
+                            <p id="fileInfo-5" class="unknown">unknown</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-folders" id="folderColumn">
                 <div class="resize-bar-left" id="resizeBar-left"></div>

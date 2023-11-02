@@ -16,11 +16,13 @@ class AudioPlayer{
         this.processSlider.value = 0
     }
 
-    changeSource(src, name, duration, index){
+    changeSource(src, name, duration, index, extension, size){
         this.source          = src
         this.audio.source    = src
         this.currentPlayTime = 0
         this.songIndex       = index
+
+        this.updateSongCurrentSongData([name, name, src, extension, duration, size])
         
         document.getElementById('songName').innerHTML = name
         document.getElementById('songDurationTime').innerHTML = duration
@@ -88,8 +90,9 @@ class AudioPlayer{
 
         let nextSongDOM    = currentSongsDOM[this.songIndex]
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
+        console.log(nextSongParams)
 
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex)
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
         
         // Start the next song
         this.play()
@@ -115,7 +118,7 @@ class AudioPlayer{
         let nextSongDOM    = currentSongsDOM[this.songIndex]
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
 
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex)
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
 
         // Start the next song
         this.play()
@@ -150,5 +153,25 @@ class AudioPlayer{
         seconds     = ('0' + seconds).slice(-2)
 
         return minutes + ':' + seconds
+    }
+
+    updateSongCurrentSongData(data){
+        // Text adjustments
+        data[3] = '.' + data[3]
+        data[5] = data[5] + ' MB'
+
+        // Adding the text
+        for(var i=0; i<6; i++){
+            let stat    = data[i]
+            let dataRow = document.getElementById('fileInfo-' + i)
+
+            if((stat == null) || (stat == undefined)){
+                dataRow.innerHTML = 'unknown'
+                dataRow.classList.add('unknown')
+            }else{
+                dataRow.innerHTML = stat
+                dataRow.classList.remove('unknown')
+            }
+        }
     }
 }
