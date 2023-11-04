@@ -1,24 +1,21 @@
-const fs = require('fs')
+const fs                            = require('fs')
 const { getAudioDurationInSeconds } = require('get-audio-duration')
-const path = require('path')
 
 class FileSystem{
     #ALLOWED_EXTENSIONS = []
     #FILE_PATH          = ''
     #FAVOURITES_PATH    = ''
-    #BASE_PATH          = ''
     #source             = ''
 
-    constructor(filePath, allowedExtensions, favouritesPath, basePath){
+    constructor(filePath, allowedExtensions, favouritesPath){
         this.#ALLOWED_EXTENSIONS = allowedExtensions
         this.#FILE_PATH          = filePath
         this.#FAVOURITES_PATH    = favouritesPath
-        this.#BASE_PATH          = basePath
     }
 
     async getAudioFiles(folder){
         this.#source = folder == '' ?  this.#FILE_PATH : this.#FILE_PATH + '/' + folder
-        let files = fs.readdirSync(this.#FILE_PATH + '/' + folder)
+        let files    = fs.readdirSync(this.#FILE_PATH + '/' + folder)
     
         return await this.#readFile([], files, 0, [])
     }
@@ -32,13 +29,6 @@ class FileSystem{
         let fileNameSplit = files[index].split('.')
         let extension     = fileNameSplit.pop()
         let fileStats     = fs.statSync(filePath)
-        let obj = {
-            'name' : '',
-            'name_full' : '',
-            'type' : '',
-            'duration' : '',
-            'size' : -1
-        }
     
         // Check if folder
         if(!fileStats.isFile()){
@@ -55,20 +45,21 @@ class FileSystem{
             time = Math.round(time)
     
             let minutes = parseInt(time / 60)
-            let seconds = parseInt(time - minutes * 60)
-            seconds     = ('0' + seconds).slice(-2)
+            let seconds = ('0' + parseInt(time - minutes * 60)).slice(-2)
     
             return new Promise((resolve) => resolve(minutes + ':' + seconds))
         })
     
-        obj.type      = extension
-        obj.name      = fileNameSplit.join('.')
-        obj.name_full = files[index]
-        obj.duration  = duration
-        obj.size      = (fileStats.size / 1000000).toFixed(2) // byte -> Mbyte
-        obj.path      = filePath
+        let newFileObject = {
+            'name'      : fileNameSplit.join('.'),
+            'name_full' : files[index],
+            'type'      : extension,
+            'duration'  : duration,
+            'size'      : (fileStats.size / 1000000).toFixed(2), // byte -> Mbyte
+            'path'      : filePath
+        }
     
-        fileObjects.push(obj)
+        fileObjects.push(newFileObject)
     
         return this.#readFile(fileObjects, files, index + 1, folders)
     }
@@ -87,14 +78,6 @@ class FileSystem{
         let fileNameSplit = fileName.split('.')
         let extension     = fileNameSplit.pop()
         let fileStats     = fs.statSync(filePath)
-        let obj = {
-            'name' : '',
-            'name_full' : '',
-            'type' : '',
-            'duration' : '',
-            'size' : -1,
-            'path' : ''
-        }
     
         let duration = await getAudioDurationInSeconds(filePath).then((time) => {
             time = Math.round(time)
@@ -105,15 +88,17 @@ class FileSystem{
     
             return new Promise((resolve) => resolve(minutes + ':' + seconds))
         })
+
+        let newFileObject = {
+            'name' : fileNameSplit.join('.'),
+            'name_full' : fileName,
+            'type' : extension,
+            'duration' : duration,
+            'size' : (fileStats.size / 1000000).toFixed(2), // byte -> Mbyte
+            'path' : filePath
+        }
     
-        obj.type      = extension
-        obj.name      = fileNameSplit.join('.')
-        obj.name_full = fileName
-        obj.duration  = duration
-        obj.size      = (fileStats.size / 1000000).toFixed(2) // byte -> Mbyte
-        obj.path      = filePath
-    
-        fileObjects.push(obj)
+        fileObjects.push(newFileObject)
     
         return this.#readFavourite(fileObjects, paths, index + 1)
     }

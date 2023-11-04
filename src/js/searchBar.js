@@ -30,7 +30,6 @@ class SearchBar{
     }
 
     startSearch(){
-        // Get content
         let allFiles = []
         let allFilesRaw = this.httpFileRequest()
 

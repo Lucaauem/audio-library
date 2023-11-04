@@ -1,6 +1,7 @@
 const express = require('express')
 const path    = require('path')
 const fs      = require('fs')
+const { exec } = require('child_process')
 const FileSystem = require('./js/fileSystem.js')
 
 let app                  = express()
@@ -8,7 +9,7 @@ const PORT               = 8080
 const FILE_PATH          = './files'
 const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
-const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH, './files')
+const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH)
 
 app.use(express.static(process.cwd()))
 console.clear()
@@ -21,6 +22,14 @@ app.get('/get-favourite-songs', (req, res) => {
 // Get favourites (json)
 app.get('/get-favourite-list', (req, res) => {
     res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
+})
+
+// Open Directory in Explorer
+app.get('/open-explorer', (req, res) => {
+    let mainDirPath = process.cwd() + '\\files'
+    exec('start "" "' + mainDirPath + '"')
+    
+    res.sendStatus(200)
 })
 
 // Get all files

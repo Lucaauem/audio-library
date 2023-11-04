@@ -141,7 +141,7 @@ function homeButton(){
 
 function showSearchPopup(){
     document.getElementById('lowlightFrame').style.display = 'block'
-    document.getElementById('searchPopup').classList.add('search-popup-show')
+    document.getElementById('searchPopup').classList.add('window-popup-show-top')
 
     document.body.addEventListener('keydown', keypressEvents)
     SEARCH_BAR.startSearch()
@@ -149,7 +149,7 @@ function showSearchPopup(){
 
 function hideSearchPopup(){
     document.getElementById('lowlightFrame').style.display = 'none'
-    document.getElementById('searchPopup').classList.remove('search-popup-show')
+    document.getElementById('searchPopup').classList.remove('window-popup-show-top')
 
     document.body.removeEventListener('keydown', keypressEvents)
 }

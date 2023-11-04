@@ -162,26 +162,10 @@ p{
 
 /* -- Search Popup -- */
 .search-popup-frame{
-    display: flex;
     justify-content: center;
-    align-items: center;
-    position: absolute;
-    transition: top 0.25s, opacity 0.65s;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    top:-100%;
-    left: 50%;
-    background-color: var(--primary-dark);
-    border: 3px solid var(--secondary-dark);
-    border-radius: 20px;
     height: 3.5rem;
     width: 50%;
-    padding: 0px 5px 0px
-}
-
-.search-popup-show{
-    opacity: 1;
-    top: clamp(50px, 5vh, 10%);
+    padding: 0px 5px 0px !important
 }
 
 .search-popup-frame > input{
@@ -235,23 +219,8 @@ p{
 }
 
 .row-config > button{
-    transition: all 0.1s;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
     height: 10%;
-    border: 2px solid var(--secondary-dark);
-    border-radius: 10px;
-    background-color: transparent;
     margin: 10px;
-}
-
-.row-config > button:hover{
-    background-color: var(--secondary-dark);
-}
-
-.row-config > button:active{
-    background-color: var(--tertiary-dark);
 }
 
 .row-file-info{
@@ -277,11 +246,55 @@ p{
     width: 90px;
 }
 
-.file-info-data-stats > .unknown{
-    font-style: italic;
-    opacity: 0.5;
-}
-
 .file-info-data-names > p, .file-info-data-stats > p{
     margin: 5px 0px;
+}
+
+/* Refractored Stuff */
+.input-btn{
+    transition: all 0.1s;
+    cursor: pointer;
+    border: 2px solid var(--secondary-dark);
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+.input-btn:hover{
+    background-color: var(--secondary-dark);
+}
+
+.input-btn:active{
+    background-color: var(--tertiary-dark);
+}
+
+.window-popup{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: -100%;
+    left: 50%;
+    transition: top 0.25s, opacity 0.65s;
+    opacity: 0;
+    background-color: var(--primary-dark);
+    border: 3px solid var(--secondary-dark);
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.window-popup-show-center{
+    top: 50%;
+    opacity: 1;
+}
+
+.window-popup-show-top{
+    opacity: 1;
+    top: clamp(50px, 5vh, 10%);
+}
+
+.text-deactivated{
+    font-style: italic;
+    opacity: 0.5;
 }

@@ -1,0 +1,43 @@
+:root{
+    --primary-dark  : rgb(42, 42, 42);
+    --secondary-dark: rgb(81, 81, 81);
+    --tertiary-dark : rgb(63, 63, 63);
+}
+
+.file-config-popup{
+    flex-direction: column;
+    min-width: 200px;
+    width: 30%;
+    min-height: 200px;
+    height: 35%;
+}
+
+.file-config-popup > p{
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.file-config-popup > select{
+    transition: all 0.1s;
+    height: 10%;
+    width: 75%;
+    margin-bottom: 10px;
+    background-color: transparent;
+    outline: transparent;
+    color: white;
+    cursor: pointer;
+    border: 2px solid var(--secondary-dark);
+    border-radius: 10px;
+}
+
+.file-config-popup > select > option{
+    border: transparent;
+    outline: none;
+}
+
+.file-config-popup > button{
+    height: 15%;
+    margin: 10px;
+    width: 50%;
+}

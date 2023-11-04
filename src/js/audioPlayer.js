@@ -167,10 +167,10 @@ class AudioPlayer{
 
             if((stat == null) || (stat == undefined)){
                 dataRow.innerHTML = 'unknown'
-                dataRow.classList.add('unknown')
+                dataRow.classList.add('text-deactivated')
             }else{
                 dataRow.innerHTML = stat
-                dataRow.classList.remove('unknown')
+                dataRow.classList.remove('text-deactivated')
             }
         }
     }

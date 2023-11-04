@@ -5,7 +5,8 @@
         <link rel="stylesheet" href="/src/styles/audio-status.css">
         <link rel="stylesheet" href="/src/styles/basic-structure.css">
         <link rel="stylesheet" href="/src/styles/style.css">
-        <link rel="shortcut icon" href="/src/icon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/src/styles/file-config.css">
+        <link rel="shortcut icon" href="/src/assets/favicon.ico" type="image/x-icon">
         <title>Audio-Player</title>
     </head>
     <body>
@@ -14,15 +15,17 @@
             <div class="col-files" id="fileList"></div>
             <!-- File Info / Config Buttons -->
             <div class="col-info">
+                <!-- Section with config Buttons -->
                 <div class="resize-bar-right" id="resizeBar-right"></div>
                 <div class="row-config">
-                    <button>Add File</button>
-                    <button>Remove File</button>
-                    <button>Add Folder</button>
-                    <button>Remove Folder</button>
-                    <button>Open File Directory</button>
-                    <button>Change Config</button>
+                    <button onclick="toggleFileConfig(true)" class="input-btn">Add File</button>
+                    <button onclick="toggleFileConfig(false)" class="input-btn">Remove File</button>
+                    <button class="input-btn">Add Folder</button>
+                    <button class="input-btn">Remove Folder</button>
+                    <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
+                    <button class="input-btn">Change Config</button>
                 </div>
+                <!-- Section with Information about the selected File -->
                 <div id="rowFileInfo" class="row-file-info">
                     <h1 id="fileInfo-0">Lorem</h1>
                     <div class="file-info-data">
@@ -34,11 +37,11 @@
                             <p>Filesize</p>
                         </div>
                         <div class="file-info-data-stats">
-                            <p id="fileInfo-1" class="unknown">unknown</p>
-                            <p id="fileInfo-2" class="unknown">unknown</p>
-                            <p id="fileInfo-3" class="unknown">unknown</p>
-                            <p id="fileInfo-4" class="unknown">unknown</p>
-                            <p id="fileInfo-5" class="unknown">unknown</p>
+                            <p id="fileInfo-1" class="text-deactivated">unknown</p>
+                            <p id="fileInfo-2" class="text-deactivated">unknown</p>
+                            <p id="fileInfo-3" class="text-deactivated">unknown</p>
+                            <p id="fileInfo-4" class="text-deactivated">unknown</p>
+                            <p id="fileInfo-5" class="text-deactivated">unknown</p>
                         </div>
                     </div>
                 </div>
@@ -80,22 +83,37 @@
             </div>
         </div>
 
+        <!-- Search Popup -->
         <div onclick="hideSearchPopup()" id="lowlightFrame" class="lowlight-frame"></div>
-        <div id="searchPopup" class="search-popup-frame">
+        <div id="searchPopup" class="search-popup-frame window-popup">
             <input id="searchPopupInput" type="text">
             <img onclick="keypressEvents({ key: 'Enter' })" src="/src/assets/icons/icon-search.svg" alt="">
         </div>
+
+        <!-- Config Windows -->
+        <!-- Remove File -->
+        <div id="popupFileConfig" class="file-config-popup window-popup">
+            <p>Select Folder</p>
+            <select></select>
+            <p>Select File</p>
+            <select>
+                <option value="">Lorem</option>
+            </select>
+            <button class="input-btn">Add File</button>
+        </div>
+
+        <script>
+            function httpGet(url){
+                var xmlHttp = new XMLHttpRequest()
+                xmlHttp.open("GET", url, false)
+                xmlHttp.send(null)
+                return xmlHttp.responseText
+            }
+        </script>
+        <script src="/src/js/configWindows.js"></script>
+        <script src="/src/js/audioPlayer.js"></script>
+        <script src="/src/js/searchBar.js"></script>
+        <script src="/src/js/columnResize.js"></script>
+        <script src="/src/js/interaction.js"></script>
     </body>
-    <script>
-        function httpGet(url){
-            var xmlHttp = new XMLHttpRequest()
-            xmlHttp.open("GET", url, false)
-            xmlHttp.send(null)
-            return xmlHttp.responseText
-        }
-    </script>
-    <script src="/src/js/audioPlayer.js"></script>
-    <script src="/src/js/searchBar.js"></script>
-    <script src="/src/js/columnResize.js"></script>
-    <script src="/src/js/interaction.js"></script>
 </html>
