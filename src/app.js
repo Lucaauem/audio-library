@@ -44,8 +44,41 @@ app.get('/get-all-files', (req, res) => {
         }
     })
     
-    getAllFiles(folders).then(files => { res.send(files )})
+    getAllFiles(folders).then(files => { res.send(files)})
 })
+
+// Get directory
+app.get('/get-directory', (req, res) => {
+    let files = {}
+
+    files['-'] = readDirectory(FILE_PATH)
+
+    fs.readdirSync(FILE_PATH).forEach(file => {
+        let filePath = FILE_PATH + '/' + file
+        let fileStats = fs.statSync(filePath)
+
+        if(fileStats.isDirectory()){
+            files[file] = readDirectory(filePath)
+        }
+    })
+
+    res.send(files)
+})
+
+function readDirectory(path){
+    let files = []
+
+    fs.readdirSync(path).forEach(file => {
+        let filePath = path + '/' + file
+        let fileStats = fs.statSync(filePath)
+
+        if(!fileStats.isDirectory()){
+            files.push({'name': file, 'path': filePath})
+        }
+    })
+
+    return files
+}
 
 async function getAllFiles(folders){
     let allFiles = []
@@ -57,6 +90,15 @@ async function getAllFiles(folders){
 
     return allFiles
 }
+
+// Remove audio file
+app.get(new RegExp('(remove-file).*'), (req, res) => {
+    let filePath = FILE_PATH + '/' + (req.originalUrl).split('/').slice(3).join('/')
+
+    fs.unlinkSync(filePath)
+
+    res.sendStatus(200)
+})
 
 // Get audio files
 app.get(new RegExp('(audio-files).*'), (req, res) => {

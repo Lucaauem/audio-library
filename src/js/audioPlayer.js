@@ -157,8 +157,8 @@ class AudioPlayer{
 
     updateSongCurrentSongData(data){
         // Text adjustments
-        data[3] = '.' + data[3]
-        data[5] = data[5] + ' MB'
+        data[3] = data[3] != null & data[3] != undefined ? '.' + data[3] : data[3]
+        data[5] = data[5] != null & data[5] != undefined ? data[5] + ' MB' : data[5]
 
         // Adding the text
         for(var i=0; i<6; i++){

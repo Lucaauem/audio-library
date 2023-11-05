@@ -58,7 +58,7 @@ class SearchBar{
     }
 
     createSongListElement(file, path, index){
-        favouritesPaths   = Object.keys(JSON.parse(httpGet('get-favourite-list')))
+        favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
         let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
     
         document.getElementById('fileList').innerHTML += `

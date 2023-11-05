@@ -1,7 +1,7 @@
-let favouritesPaths = Object.keys(JSON.parse(httpGet('get-favourite-list')))
+let favouritesPaths = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
 let activeElement = null
 let fileList     = document.getElementById('fileList')
-let audioFileObj = JSON.parse(httpGet('audio-files'))
+let audioFileObj = JSON.parse(httpRequest('audio-files'))
 let filePath     = audioFileObj.path
 let audioFiles   = audioFileObj.files
 let folders      = audioFileObj.folders
@@ -13,8 +13,17 @@ addFolders()
 const AUDIO_PLAYER = new AudioPlayer('audioPlayer', 'songProcessSlider', sources)
 const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
 
+function refreshList(){
+    audioFileObj = JSON.parse(httpRequest('audio-files'))
+    filePath     = audioFileObj.path
+    audioFiles   = audioFileObj.files
+    folders      = audioFileObj.folders
+
+    updateFilesShown(audioFiles)
+}
+
 function createSongListElement(file, path, index){
-    favouritesPaths   = Object.keys(JSON.parse(httpGet('get-favourite-list')))
+    favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
     let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
 
     document.getElementById('fileList').innerHTML += `
@@ -64,7 +73,7 @@ function updateFilesShown(audioFiles){
 }
 
 function openFolder(folder, folderDOM){
-    audioFileObj = JSON.parse(httpGet('audio-files/' + folder))
+    audioFileObj = JSON.parse(httpRequest('audio-files/' + folder))
     filePath     = audioFileObj.path
     audioFiles   = audioFileObj.files
     folders      = audioFileObj.folders
@@ -84,7 +93,7 @@ function selectSong(path, nameNoExtension, duration, index, extension, size){
 }
 
 function toggleFavourite(path, dom){
-    httpGet('favourite-song/' + path) // Update .json
+    httpRequest('favourite-song/' + path) // Update .json
     
     // Update icon
     if(dom.getAttribute('src').includes('active')){
@@ -95,7 +104,7 @@ function toggleFavourite(path, dom){
 }
 
 function openFavourites(folderDOM){
-    audioFileObj = JSON.parse(httpGet('get-favourite-songs'))
+    audioFileObj = JSON.parse(httpRequest('get-favourite-songs'))
     filePath     = null
     audioFiles   = null
     folders      = null
@@ -125,7 +134,7 @@ function updateFavouriteFilesShown(audioFiles){
 }
 
 function homeButton(){
-    audioFileObj = JSON.parse(httpGet('audio-files'))
+    audioFileObj = JSON.parse(httpRequest('audio-files'))
     filePath     = audioFileObj.path
     audioFiles   = audioFileObj.files
     folders      = audioFileObj.folders

@@ -18,9 +18,9 @@
                 <!-- Section with config Buttons -->
                 <div class="resize-bar-right" id="resizeBar-right"></div>
                 <div class="row-config">
-                    <button onclick="toggleFileConfig(true)" class="input-btn">Add File</button>
-                    <button onclick="toggleFileConfig(false)" class="input-btn">Remove File</button>
-                    <button class="input-btn">Add Folder</button>
+                    <button class="input-btn">Add File</button>
+                    <button onclick="toggleRemoveFile()" class="input-btn">Remove File</button>
+                    <button onclick="toggleRemoveFolder()" class="input-btn">Add Folder</button>
                     <button class="input-btn">Remove Folder</button>
                     <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
                     <button class="input-btn">Change Config</button>
@@ -92,18 +92,23 @@
 
         <!-- Config Windows -->
         <!-- Remove File -->
-        <div id="popupFileConfig" class="file-config-popup window-popup">
+        <div id="popupRemoveFile" class="file-config-popup window-popup">
             <p>Select Folder</p>
-            <select></select>
+            <select id="removeFileSelectFolder" class="input-select"></select>
             <p>Select File</p>
-            <select>
-                <option value="">Lorem</option>
-            </select>
-            <button class="input-btn">Add File</button>
+            <select id="removeFileSelectFile" class="input-select"></select>
+            <button onclick="removeFile()" class="input-btn">Remove File</button>
+        </div>
+
+        <!-- Add Folder -->
+        <div id="popupAddFolder" class="folder-config-popup window-popup">
+            <p>Name your Folder</p>
+            <input type="text">
+            <button onclick="removeFile()" class="input-btn">Add Folder</button>
         </div>
 
         <script>
-            function httpGet(url){
+            function httpRequest(url){
                 var xmlHttp = new XMLHttpRequest()
                 xmlHttp.open("GET", url, false)
                 xmlHttp.send(null)
