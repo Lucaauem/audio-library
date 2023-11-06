@@ -20,6 +20,13 @@ function refreshList(){
     folders      = audioFileObj.folders
 
     updateFilesShown(audioFiles)
+
+    let folderDoms = document.getElementsByClassName('folder-element')
+
+    for(var i=1; i<folderDoms.length; i++){
+        folderDoms[i].parentNode.removeChild(folderDoms[i])
+    }
+    addFolders()
 }
 
 function createSongListElement(file, path, index){

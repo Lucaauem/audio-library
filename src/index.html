@@ -20,8 +20,8 @@
                 <div class="row-config">
                     <button class="input-btn">Add File</button>
                     <button onclick="toggleRemoveFile()" class="input-btn">Remove File</button>
-                    <button onclick="toggleRemoveFolder()" class="input-btn">Add Folder</button>
-                    <button class="input-btn">Remove Folder</button>
+                    <button onclick="toggleAddFolder()" class="input-btn">Add Folder</button>
+                    <button onclick="toggleRemoveFolder()" class="input-btn">Remove Folder</button>
                     <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
                     <button class="input-btn">Change Config</button>
                 </div>
@@ -103,8 +103,15 @@
         <!-- Add Folder -->
         <div id="popupAddFolder" class="folder-config-popup window-popup">
             <p>Name your Folder</p>
-            <input type="text">
-            <button onclick="removeFile()" class="input-btn">Add Folder</button>
+            <input type="text" id="createFolderInput">
+            <button onclick="createFolder()" class="input-btn">Add Folder</button>
+        </div>
+
+        <!-- Remove Folder -->
+        <div id="popupRemoveFolder" class="folder-config-popup window-popup">
+            <p>Choose one Folder</p>
+            <select id="removeFolderSelect" class="input-select"></select>
+            <button onclick="removeFolder()" class="input-btn">Remove Folder</button>
         </div>
 
         <script>

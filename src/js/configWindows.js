@@ -36,13 +36,46 @@ function removeFile(){
     // Remove file and update ui
     httpRequest('remove-file/' + fileSelection)
     toggleRemoveFile()
-    
-    // Update ui
+    refreshList()
+}
+
+function toggleAddFolder(){
+    document.getElementById('popupAddFolder').classList.toggle('window-popup-show-center')
+}
+
+function createFolder(){
+    let name = document.getElementById('createFolderInput').value
+
+    if(name == ''){
+        return
+    }
+
+    httpRequest('create-folder/' + name)
+    toggleAddFolder()
     refreshList()
 }
 
 function toggleRemoveFolder(){
-    document.getElementById('popupAddFolder').classList.toggle('window-popup-show-center')
+    // Get all folders
+    let folderSelect = document.getElementById('removeFolderSelect')
+    directory = JSON.parse(httpRequest('get-directory'))
+    directoryFolders = (Object.keys(directory)).slice(1)
+
+    folderSelect.innerHTML = ''
+
+    directoryFolders.forEach(folder => {
+        folderSelect.innerHTML += `<option>` + folder + `</option>`
+    })
+
+    document.getElementById('popupRemoveFolder').classList.toggle('window-popup-show-center')
+}
+
+function removeFolder(){
+    let name = document.getElementById('removeFolderSelect').value
+
+    httpRequest('remove-folder/' + name)
+    toggleRemoveFolder()
+    refreshList() // !FIXME! Folder stays in list
 }
 
 function openFileDirectory(){

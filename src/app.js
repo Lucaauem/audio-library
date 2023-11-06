@@ -91,13 +91,40 @@ async function getAllFiles(folders){
     return allFiles
 }
 
+// Create new Folder
+app.get(new RegExp('(create-folder).*'), (req, res) => {
+    let folderName = (req.originalUrl.split('/')).slice(2).join('/')
+
+    try{
+        fs.mkdirSync(FILE_PATH + '/' + folderName)
+        res.sendStatus(200)
+    }catch(err){
+        res.sendStatus(401)        
+    }
+})
+
 // Remove audio file
 app.get(new RegExp('(remove-file).*'), (req, res) => {
-    let filePath = FILE_PATH + '/' + (req.originalUrl).split('/').slice(3).join('/')
+    try{
+        let filePath = FILE_PATH + '/' + (req.originalUrl).split('/').slice(3).join('/')
+        
+        fs.unlinkSync(filePath)
+        res.sendStatus(200)
+    }catch(err){
+        res.sendStatus(401)
+    }
+})
 
-    fs.unlinkSync(filePath)
+// Remove Folder
+app.get(new RegExp('(remove-folder).*'), (req, res) => {
+    try{
+        let folderPath = (req.originalUrl).split('/').slice(2).join('/')
 
-    res.sendStatus(200)
+        fs.rmdirSync(FILE_PATH + '/' + folderPath)
+        res.sendStatus(201)
+    }catch(err){
+        res.sendStatus(401)
+    }
 })
 
 // Get audio files
