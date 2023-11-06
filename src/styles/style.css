@@ -80,8 +80,11 @@ p{
 .home-bar{
     display: flex;
     align-items: center;
-    padding: 10px 0px;
+    position: sticky;
+    top: 0;
+    padding: 10px 5px;
     height: 30px;
+    background-color: var(--primary-dark);
     border-bottom: 2px solid var(--secondary-dark);
 }
 
@@ -206,29 +209,27 @@ p{
 /* -- Config Buttons / Window -- */
 .row-config{
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
     height: 50%;
     width: 100%;
-
     border-bottom: 2px solid var(--secondary-dark);
+
+    overflow-y: scroll;
 }
 
-.row-config > button{
-    height: 10%;
+.row-config > div{
+    height: fit-content;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.row-config > div > button{
     margin: 10px;
 }
 
 .row-file-info{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    height: 50%;
     width: calc(100% - 15px);
     margin-left: 10px;
 }
@@ -250,7 +251,6 @@ p{
     margin: 5px 0px;
 }
 
-/* Refractored Stuff */
 .input-btn{
     transition: all 0.1s;
     cursor: pointer;
@@ -259,6 +259,7 @@ p{
     color: white;
     font-size: 1rem;
     background-color: transparent;
+    height: fit-content;
 }
 
 .input-btn:hover{

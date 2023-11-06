@@ -18,12 +18,14 @@
                 <!-- Section with config Buttons -->
                 <div class="resize-bar-right" id="resizeBar-right"></div>
                 <div class="row-config">
-                    <button class="input-btn">Add File</button>
-                    <button onclick="toggleRemoveFile()" class="input-btn">Remove File</button>
-                    <button onclick="toggleAddFolder()" class="input-btn">Add Folder</button>
-                    <button onclick="toggleRemoveFolder()" class="input-btn">Remove Folder</button>
-                    <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
-                    <button class="input-btn">Change Config</button>
+                    <div>
+                        <button class="input-btn">Add File</button>
+                        <button onclick="toggleRemoveFile()" class="input-btn">Remove File</button>
+                        <button onclick="toggleAddFolder()" class="input-btn">Add Folder</button>
+                        <button onclick="toggleRemoveFolder()" class="input-btn">Remove Folder</button>
+                        <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
+                        <button class="input-btn">Change Config</button>
+                    </div>
                 </div>
                 <!-- Section with Information about the selected File -->
                 <div id="rowFileInfo" class="row-file-info">

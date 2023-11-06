@@ -1,6 +1,7 @@
 .container{
     display: grid;
-    height: 100%;
+    height: calc(100% - 5px);
+    padding: 5px 5px 0px;
     grid-template-columns: 22.5% 55% 22.5%;
     grid-template-rows: calc(100% - 75px) 75px;
 }
@@ -21,17 +22,22 @@
 }
 
 .col-info{
-    grid-area: 1 / 3 / 2 / 4;
-    margin-right: 5px;
+    display: flex;
+    flex-direction: column;
     position: relative;
+    grid-area: 1 / 3 / 2 / 4;
 }
 
 .col-folders{
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
     grid-area: 1 / 1 / 2 / 2;
-    margin-left: 5px;
 }
 
 .col-files{
+    overflow-x: none;
+    overflow-y: scroll;
     grid-area: 1 / 2 / 2 / 3;
 }
 
@@ -40,16 +46,17 @@
 }
 
 .resize-bar-left, .resize-bar-right{
+    z-index: 2;
     cursor: e-resize;
+    position: absolute;
     height: 100%;
     width: 10px;
 }
 
 .resize-bar-right{
-    margin-left: -5px;
+    left: -2.5px;
 }
 
 .resize-bar-left{
-    float: right;
-    margin-right: -5px;
+    right: -2.5px;
 }
