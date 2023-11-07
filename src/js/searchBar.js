@@ -64,7 +64,7 @@ class SearchBar{
         document.getElementById('fileList').innerHTML += `
             <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `, '` + extension + `',` + size + `)">
                 <div>
-                    <p>` + file.name + `</p>
+                    <p class="text-overflow-dots">` + file.name + `</p>
                     <p>` + file.duration + `</p>
                 </div>
                 <div class="file-list-item-fav">
