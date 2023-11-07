@@ -23,7 +23,7 @@ class SearchBar{
         this.#allFiles.forEach(file => {
             if(file.name.includes(input)){
                 this.#content.push(file)
-                this.createSongListElement(file, file.path, index)
+                this.createSongListElement(file, file.path, index, file.type, file.size)
                 index++
             }
         })
@@ -57,12 +57,12 @@ class SearchBar{
         return JSON.parse(xmlHttp.responseText)
     }
 
-    createSongListElement(file, path, index){
+    createSongListElement(file, path, index, extension, size){
         favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
         let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
     
         document.getElementById('fileList').innerHTML += `
-            <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `)">
+            <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `, '` + extension + `',` + size + `)">
                 <div>
                     <p>` + file.name + `</p>
                     <p>` + file.duration + `</p>

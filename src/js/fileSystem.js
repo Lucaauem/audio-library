@@ -90,12 +90,12 @@ class FileSystem{
         })
 
         let newFileObject = {
-            'name' : fileNameSplit.join('.'),
+            'name'      : fileNameSplit.join('.'),
             'name_full' : fileName,
-            'type' : extension,
-            'duration' : duration,
-            'size' : (fileStats.size / 1000000).toFixed(2), // byte -> Mbyte
-            'path' : filePath
+            'type'      : extension,
+            'duration'  : duration,
+            'size'      : (fileStats.size / 1000000).toFixed(2), // byte -> Mbyte
+            'path'      : filePath
         }
     
         fileObjects.push(newFileObject)
