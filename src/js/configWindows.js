@@ -1,6 +1,9 @@
-let directory = null
+let directory        = null
 let directoryFolders = null
 
+function toggleAddFile(){
+    document.getElementById('popupAddFile').classList.toggle('window-popup-show-center')
+}
 function toggleRemoveFile(){
     // Get directory
     let folderSelect = document.getElementById('removeFileSelectFolder')
@@ -29,7 +32,7 @@ function updateSelectFiles(selectId, folder){
 function removeFile(){
     let fileSelection = document.getElementById('removeFileSelectFile').value
 
-    if(fileSelection == '' || fileSelection == '-'){
+    if((fileSelection == '') || (fileSelection == '-')){
         return
     }
 

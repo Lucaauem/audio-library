@@ -19,11 +19,11 @@
                 <div class="resize-bar-right" id="resizeBar-right"></div>
                 <div class="row-config">
                     <div>
-                        <button class="input-btn">Add File</button>
-                        <button onclick="toggleRemoveFile()" class="input-btn">Remove File</button>
-                        <button onclick="toggleAddFolder()" class="input-btn">Add Folder</button>
+                        <button onclick="toggleAddFile()"      class="input-btn">Add File</button>
+                        <button onclick="toggleRemoveFile()"   class="input-btn">Remove File</button>
+                        <button onclick="toggleAddFolder()"    class="input-btn">Add Folder</button>
                         <button onclick="toggleRemoveFolder()" class="input-btn">Remove Folder</button>
-                        <button onclick="openFileDirectory()" class="input-btn">Open File Directory</button>
+                        <button onclick="openFileDirectory()"  class="input-btn">Open File Directory</button>
                         <button class="input-btn">Change Config</button>
                     </div>
                 </div>
@@ -93,6 +93,15 @@
         </div>
 
         <!-- Config Windows -->
+
+        <!-- Add File -->
+        <div id="popupAddFile" class="file-config-popup file-add-popup window-popup">
+            <p>WARNING</p>
+            <p class="text-deactivated">Due to secruity reason, you need to manually drop your files into the selected
+                directory. Please use "Open File Directory" for this.
+            </p>
+        </div>
+
         <!-- Remove File -->
         <div id="popupRemoveFile" class="file-config-popup window-popup">
             <p>Select Folder</p>
@@ -105,7 +114,7 @@
         <!-- Add Folder -->
         <div id="popupAddFolder" class="folder-config-popup window-popup">
             <p>Name your Folder</p>
-            <input type="text" id="createFolderInput">
+            <input type="text" id="createFolderInput" class="input-text">
             <button onclick="createFolder()" class="input-btn">Add Folder</button>
         </div>
 

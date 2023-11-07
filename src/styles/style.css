@@ -232,10 +232,18 @@ p{
 .row-file-info{
     width: calc(100% - 15px);
     margin-left: 10px;
+    overflow: scroll;
 }
 
-.row-file-info > p, .row-file-info > h6{
+.row-file-info > p, .row-file-info > h1{
     max-width: 100%;
+}
+
+.row-file-info > h1{
+    background-color: var(--primary-dark);
+    z-index: 1;
+    position: sticky;
+    top: 0;
 }
 
 .file-info-data{
@@ -297,5 +305,14 @@ p{
 
 .text-deactivated{
     font-style: italic;
+    font-weight: 300 !important;
     opacity: 0.5;
+}
+
+.file-add-popup{
+    min-height: min-content !important;
+    height: fit-content !important;
+}
+.file-add-popup > p{
+    text-align: center;
 }

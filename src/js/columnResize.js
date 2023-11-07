@@ -1,6 +1,6 @@
-const LEFT_COL_MIN_WIDTH     = 5
-const MID_COL_MIN_WIDTH      = 25
-const RIGHT_COL_MIN_WIDTH    = 10
+const LEFT_COL_MIN_WIDTH  = 5
+const MID_COL_MIN_WIDTH   = 25
+const RIGHT_COL_MIN_WIDTH = 10
 
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
