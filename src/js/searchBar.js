@@ -60,16 +60,32 @@ class SearchBar{
     createSongListElement(file, path, index, extension, size){
         favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
         let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
+        let mainDiv       = document.createElement('div')
+        let childDiv      = document.createElement('div')
+        let paragraph     = document.createElement('p')
+        let image         = document.createElement('img')
     
-        document.getElementById('fileList').innerHTML += `
-            <div class="file-list-item border-hover-secondary" onclick="selectSong('` + path + `', '` + file.name + `', '` + file.duration + `',` + index + `, '` + extension + `',` + size + `)">
-                <div>
-                    <p class="text-overflow-dots">` + file.name + `</p>
-                    <p>` + file.duration + `</p>
-                </div>
-                <div class="file-list-item-fav">
-                    <img onclick="toggleFavourite('` + path + `', this)" class="like-icon" src="/src/assets/icons/like-icon` + activeIconSrc + `.svg">
-                </div>
-            </div>`
+        mainDiv.classList.add('file-list-item')
+        mainDiv.classList.add('border-hover-secondary')
+        mainDiv.setAttribute('onclick', 'selectSong("'+path.replaceAll('\\','\\\\')+'","'+ file.name+'","'+ file.duration+'","'+ index+'","'+ file.type+'","'+ file.size+'")')
+    
+        paragraph.classList = 'text-overflow-dots'
+        paragraph.innerHTML = file.name
+        childDiv.appendChild(paragraph)
+        paragraph = document.createElement('p')
+        paragraph.classList = ''
+        paragraph.innerHTML = file.duration
+        childDiv.append(paragraph)
+        mainDiv.appendChild(childDiv)
+    
+        childDiv = document.createElement('div')
+        childDiv.classList = 'file-list-item-fav'
+        image.onclick = () => { toggleFavourite(path, image) }
+        image.classList = 'like-icon'
+        image.src = '/src/assets/icons/like-icon' + activeIconSrc + '.svg'
+        childDiv.append(image)
+        mainDiv.appendChild(childDiv)
+    
+        document.getElementById('fileList').appendChild(mainDiv)
     }
 }

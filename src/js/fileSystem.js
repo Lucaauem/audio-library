@@ -14,8 +14,8 @@ class FileSystem{
     }
 
     async getAudioFiles(folder){
-        this.#source = folder == '' ?  this.#FILE_PATH : this.#FILE_PATH + '/' + folder
-        let files    = fs.readdirSync(this.#FILE_PATH + '/' + folder)
+        this.#source = folder == '' ?  this.#FILE_PATH : this.#FILE_PATH + '\\' + folder
+        let files    = fs.readdirSync(this.#FILE_PATH + '\\' + folder)
     
         return await this.#readFile([], files, 0, [])
     }
@@ -25,7 +25,7 @@ class FileSystem{
             return new Promise((resolve) => resolve([fileObjects, folders]))
         }
     
-        let filePath      = this.#source + '/' + files[index]
+        let filePath      = this.#source + '\\' + files[index]
         let fileNameSplit = files[index].split('.')
         let extension     = fileNameSplit.pop()
         let fileStats     = fs.statSync(filePath)
@@ -74,7 +74,7 @@ class FileSystem{
         }
     
         let filePath      = paths[index]
-        let fileName      = filePath.split('/')[filePath.split('/').length - 1]
+        let fileName      = filePath.split('\\')[filePath.split('\\').length - 1]
         let fileNameSplit = fileName.split('.')
         let extension     = fileNameSplit.pop()
         let fileStats     = fs.statSync(filePath)

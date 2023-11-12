@@ -1,6 +1,7 @@
 class AudioPlayer{
     TIMER_STEPS_MS    = 25
     PREV_THRESHOLD_MS = 500
+    FILE_DIRECTORY    = ''
     currentPlayTime   = 0
     songIndex         = 0
     source            = null
@@ -8,7 +9,8 @@ class AudioPlayer{
     processSlider     = null
     timerInterval     = null
     
-    constructor(audioPlayerId, songSliderId){
+    constructor(audioPlayerId, songSliderId, fileDirectoryPath){
+        this.FILE_DIRECTORY = fileDirectoryPath.replaceAll('\\\\', '\\')
         this.audio = document.getElementById(audioPlayerId)
         this.audio.addEventListener('ended', this.songEnd.bind(this))
         this.processSlider = document.getElementById(songSliderId)
@@ -17,8 +19,8 @@ class AudioPlayer{
     }
 
     changeSource(src, name, duration, index, extension, size){
-        this.source          = src
-        this.audio.source    = src
+        this.source          = src.replace(this.FILE_DIRECTORY, '')
+        this.audio.source    = src.replace(this.FILE_DIRECTORY, '')
         this.currentPlayTime = 0
         this.songIndex       = index
 
@@ -89,8 +91,9 @@ class AudioPlayer{
         this.songIndex      = (this.songIndex + 1) % currentSongsDOM.length
 
         let nextSongDOM    = currentSongsDOM[this.songIndex]
-        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
-        console.log(nextSongParams)
+        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
+        nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
+
 
         this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
         
@@ -116,7 +119,8 @@ class AudioPlayer{
         this.songIndex      = previousIndex < 0 ? currentSongsDOM.length - 1 : previousIndex
 
         let nextSongDOM    = currentSongsDOM[this.songIndex]
-        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\'')
+        let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
+        nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
 
         this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
 

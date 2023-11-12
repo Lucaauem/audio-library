@@ -5,13 +5,14 @@ const { exec } = require('child_process')
 const FileSystem = require('./js/fileSystem.js')
 
 let app                  = express()
+let FILE_PATH            = 'C:\\Users\\luca-\\OneDrive\\Desktop\\new'
 const PORT               = 8080
-const FILE_PATH          = './files'
 const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
 const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH)
 
 app.use(express.static(process.cwd()))
+app.use(express.static(FILE_PATH))
 console.clear()
 
 // Get favourites
@@ -26,8 +27,7 @@ app.get('/get-favourite-list', (req, res) => {
 
 // Open Directory in Explorer
 app.get('/open-explorer', (req, res) => {
-    let mainDirPath = process.cwd() + '\\files'
-    exec('start "" "' + mainDirPath + '"')
+    exec('start "" "' + FILE_PATH + '"')
     
     res.sendStatus(200)
 })
@@ -145,7 +145,7 @@ app.get(new RegExp('(favourite-song/).*'), (req, res) => {
     let path        = req.originalUrl.split('/')
     path.shift()
     path.shift()
-    path = './' + path.join('/')
+    path = path.join('\\')
 
     if((Object.keys(favourites)).includes(path)){
         delete favourites[path]
@@ -156,6 +156,10 @@ app.get(new RegExp('(favourite-song/).*'), (req, res) => {
     favourites[path] = 1
     fs.writeFileSync(FAVOURITES_PATH, JSON.stringify(favourites))
     res.send(false)
+})
+
+app.get('/get-file-directory', (req, res) => {
+    res.status(200).send(FILE_PATH.replaceAll('\\', '\\\\'))
 })
 
 app.get('/', (req, res) => {
