@@ -314,11 +314,10 @@ p{
 }
 
 .file-add-popup{
+    display: flex;
+    text-align: center;
     min-height: min-content !important;
     height: fit-content !important;
-}
-.file-add-popup > p{
-    text-align: center;
 }
 
 .text-overflow-dots{
@@ -328,4 +327,11 @@ p{
     word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.input-file{
+    border: 3px solid var(--secondary-dark);
+    border-radius: 10px;
+    padding: 7.5px;
+    margin-bottom: 10px;
 }

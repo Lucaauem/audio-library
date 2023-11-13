@@ -2,6 +2,15 @@ let directory        = null
 let directoryFolders = null
 
 function toggleAddFile(){
+    let folderSelect = document.getElementById('addFileSelectFolder')
+    directory = JSON.parse(httpRequest('get-directory'))
+    directoryFolders = Object.keys(directory)
+
+    folderSelect.innerHTML = ''
+
+    directoryFolders.forEach(folder => {
+        folderSelect.innerHTML += `<option>` + folder + `</option>`
+    })
     document.getElementById('popupAddFile').classList.toggle('window-popup-show-center')
 }
 function toggleRemoveFile(){

@@ -1,11 +1,12 @@
 const express = require('express')
 const path    = require('path')
 const fs      = require('fs')
+const fileUpload = require('express-fileupload');
 const { exec } = require('child_process')
 const FileSystem = require('./js/fileSystem.js')
 
 let app                  = express()
-let FILE_PATH            = 'C:\\Users\\luca-\\OneDrive\\Desktop\\new'
+let FILE_PATH            = ''
 const PORT               = 8080
 const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
@@ -13,7 +14,29 @@ const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURI
 
 app.use(express.static(process.cwd()))
 app.use(express.static(FILE_PATH))
+app.use(fileUpload());
 console.clear()
+
+app.post('/upload-file', (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).sendFile(path.join(process.cwd(), '/src/index.html'))
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files['sampleFile']
+    let uploadFolder = req.body['uploadFolder']
+    uploadFolder = uploadFolder == '-' ? '' : uploadFolder + '\\'
+    let uploadPath = FILE_PATH + '\\' + uploadFolder + sampleFile.name
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath, function(err) {
+        if (err){
+            return res.status(500).sendFile(path.join(process.cwd(), '/src/index.html'))
+        }
+
+        res.status(200).sendFile(path.join(process.cwd(), '/src/index.html'))
+    })
+})
 
 // Get favourites
 app.get('/get-favourite-songs', (req, res) => {

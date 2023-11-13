@@ -93,14 +93,16 @@
         </div>
 
         <!-- Config Windows -->
-
         <!-- Add File -->
+        <form ref='uploadForm' action='http://localhost:8080/upload-file' method='post'encType="multipart/form-data">
         <div id="popupAddFile" class="file-config-popup file-add-popup window-popup">
-            <p>WARNING</p>
-            <p class="text-deactivated">For security reasons, you need to manually drop your files into the selected directory.
-                Please use "Open File Directory" for this.
-            </p>
-        </div>
+            <p>Upload File</p>
+              <input type="file" name="sampleFile" class="input-file"/>
+              <p>Select Folder</p>
+              <select name="uploadFolder" id="addFileSelectFolder" class="input-select"></select>
+              <button type='submit' class="input-btn">Upload file</button>
+            </div>
+        </form>   
 
         <!-- Remove File -->
         <div id="popupRemoveFile" class="file-config-popup window-popup">
