@@ -6,7 +6,7 @@ const { exec } = require('child_process')
 const FileSystem = require('./js/fileSystem.js')
 
 let app                  = express()
-let FILE_PATH            = ''
+let FILE_PATH            = JSON.parse(fs.readFileSync('./config.json'))['directory']
 const PORT               = 8080
 const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
@@ -185,6 +185,18 @@ app.get('/get-file-directory', (req, res) => {
     res.status(200).send(FILE_PATH.replaceAll('\\', '\\\\'))
 })
 
+// Change Directory !TODO! Check if dir exists
+app.get(new RegExp('(change-dir).*'), (req, res) => {
+    let newDir = req.originalUrl.split('/')
+    newDir.shift()
+    newDir.shift()
+    newDir = newDir.join('\\')
+
+    setDirectory(decodeURI(newDir))
+
+    res.redirect('/index.html');
+})
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), '/src/index.html'))
 })
@@ -195,3 +207,10 @@ app.listen(PORT, '0.0.0.0', (err) => {
     }
     console.log('Server up on PORT', PORT)
 })
+
+function setDirectory(dir){
+    let config = JSON.parse(fs.readFileSync('./config.json'))
+    config['directory'] = dir
+
+    fs.writeFileSync('./config.json', JSON.stringify(config))
+}

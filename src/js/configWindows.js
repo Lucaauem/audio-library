@@ -93,3 +93,17 @@ function removeFolder(){
 function openFileDirectory(){
     httpRequest('/open-explorer')
 }
+
+function toggleChangeDir(){
+    document.getElementById('popupChangeDir').classList.toggle('window-popup-show-center')
+}
+
+function changeDirectory(){
+    let dir = document.getElementById('newDirInput').value
+
+    if(dir == ''){
+        return
+    }
+
+    httpRequest('change-dir/' + dir)
+}

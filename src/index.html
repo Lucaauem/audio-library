@@ -24,7 +24,7 @@
                         <button onclick="toggleAddFolder()"    class="input-btn">Add Folder</button>
                         <button onclick="toggleRemoveFolder()" class="input-btn">Remove Folder</button>
                         <button onclick="openFileDirectory()"  class="input-btn">Open File Directory</button>
-                        <button class="input-btn">Change Config</button>
+                        <button onclick="toggleChangeDir()"    class="input-btn">Change Directory</button>
                     </div>
                 </div>
                 <!-- Section with Information about the selected File -->
@@ -125,6 +125,13 @@
             <p>Choose one Folder</p>
             <select id="removeFolderSelect" class="input-select"></select>
             <button onclick="removeFolder()" class="input-btn">Remove Folder</button>
+        </div>
+
+        <!-- Change Directory -->
+        <div id="popupChangeDir" class="dir-config-popup window-popup">
+            <p>Enter the Directory</p>
+            <input type="text" placeholder="(e.g. C:\Users\user\Desktop\audio-library\files)" id="newDirInput" class="input-text">
+            <button onclick="changeDirectory()" class="input-btn">Change Directory</button>
         </div>
 
         <script>

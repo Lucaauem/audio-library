@@ -13,13 +13,13 @@
     height: 35%;
 }
 
-.folder-config-popup > p{
+.folder-config-popup > p, .dir-config-popup > p{
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 5px;
 }
 
-.folder-config-popup{
+.folder-config-popup, .dir-config-popup{
     flex-direction: column;
     justify-content: center;
     min-width: 200px;
@@ -28,7 +28,7 @@
     height: 25%;
 }
 
-.folder-config-popup > input, .folder-config-popup > select{
+.folder-config-popup > input, .dir-config-popup > input, .folder-config-popup > select{
     width: 75%;
     margin-bottom: 10px;
 }
