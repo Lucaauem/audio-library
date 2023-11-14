@@ -173,6 +173,7 @@ function homeButton(){
 
 function showSearchPopup(){
     document.getElementById('lowlightFrame').style.display = 'block'
+    document.getElementById('lowlightFrame').onclick = () => { hideSearchPopup() }
     document.getElementById('searchPopup').classList.add('window-popup-show-top')
 
     document.body.addEventListener('keydown', keypressEvents)

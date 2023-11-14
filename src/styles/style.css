@@ -196,11 +196,13 @@ p{
 }
 
 .lowlight-frame{
-    display: none;
+    pointer-events: none;
+    transition: opacity 0.25s;
     height: 100%;
     width: 100%;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -241,7 +243,7 @@ p{
 
 .row-file-info > h1{
     background-color: var(--primary-dark);
-    z-index: 1;
+    z-index: 0;
     position: sticky;
     top: 0;
 }
@@ -283,13 +285,14 @@ p{
 }
 
 .window-popup{
+    pointer-events: none;
     display: flex;
     align-items: center;
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: -100%;
+    transform: translate(-50%, -50%) scale(0.8);
+    top: 50%;
     left: 50%;
-    transition: top 0.25s, opacity 0.65s;
+    transition: all 0.2s;
     opacity: 0;
     background-color: var(--primary-dark);
     border: 3px solid var(--secondary-dark);
@@ -298,7 +301,8 @@ p{
 }
 
 .window-popup-show-center{
-    top: 50%;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
 
@@ -334,4 +338,9 @@ p{
     border-radius: 10px;
     padding: 7.5px;
     margin-bottom: 10px;
+}
+
+.lowlight-frame-show{
+    pointer-events: all;
+    opacity: 1;
 }

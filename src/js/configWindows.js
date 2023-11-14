@@ -1,5 +1,12 @@
+const LOWLIGHT_FRAME = document.getElementById('lowlightFrame')
 let directory        = null
 let directoryFolders = null
+
+function togglePopup(id){
+    LOWLIGHT_FRAME.onclick = () => { togglePopup(id) }
+    LOWLIGHT_FRAME.classList.toggle('lowlight-frame-show')
+    document.getElementById(id).classList.toggle('window-popup-show-center')
+}
 
 function toggleAddFile(){
     let folderSelect = document.getElementById('addFileSelectFolder')
@@ -11,7 +18,8 @@ function toggleAddFile(){
     directoryFolders.forEach(folder => {
         folderSelect.innerHTML += `<option>` + folder + `</option>`
     })
-    document.getElementById('popupAddFile').classList.toggle('window-popup-show-center')
+
+    togglePopup('popupAddFile')
 }
 function toggleRemoveFile(){
     // Get directory
@@ -26,7 +34,7 @@ function toggleRemoveFile(){
     })
     updateSelectFiles('removeFileSelectFile', '-')
 
-    document.getElementById('popupRemoveFile').classList.toggle('window-popup-show-center')
+    togglePopup('popupRemoveFile')
 }
 
 function updateSelectFiles(selectId, folder){
@@ -52,7 +60,7 @@ function removeFile(){
 }
 
 function toggleAddFolder(){
-    document.getElementById('popupAddFolder').classList.toggle('window-popup-show-center')
+    togglePopup('popupAddFolder')
 }
 
 function createFolder(){
@@ -79,7 +87,7 @@ function toggleRemoveFolder(){
         folderSelect.innerHTML += `<option>` + folder + `</option>`
     })
 
-    document.getElementById('popupRemoveFolder').classList.toggle('window-popup-show-center')
+    togglePopup('popupRemoveFolder')
 }
 
 function removeFolder(){
@@ -95,7 +103,7 @@ function openFileDirectory(){
 }
 
 function toggleChangeDir(){
-    document.getElementById('popupChangeDir').classList.toggle('window-popup-show-center')
+    togglePopup('popupChangeDir')
 }
 
 function changeDirectory(){
