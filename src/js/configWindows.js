@@ -103,6 +103,8 @@ function openFileDirectory(){
 }
 
 function toggleChangeDir(){
+    document.getElementById('wrongDirWarning').classList.remove('warning-text-show')
+    document.getElementById('newDirInput').classList.remove('wrong-input')
     togglePopup('popupChangeDir')
 }
 
@@ -113,5 +115,11 @@ function changeDirectory(){
         return
     }
 
-    httpRequest('change-dir/' + dir)
+    let request = httpRequest('change-dir/' + dir)
+    if(request == 'false'){
+        document.getElementById('wrongDirWarning').classList.add('warning-text-show')
+        document.getElementById('newDirInput').classList.add('wrong-input')
+    }else{
+        togglePopup('popupChangeDir')
+    }
 }

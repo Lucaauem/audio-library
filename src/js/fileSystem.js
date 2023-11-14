@@ -9,15 +9,19 @@ class FileSystem{
 
     constructor(filePath, allowedExtensions, favouritesPath){
         this.#ALLOWED_EXTENSIONS = allowedExtensions
-        this.#FILE_PATH          = filePath
+        this.#FILE_PATH          = decodeURI(filePath)
         this.#FAVOURITES_PATH    = favouritesPath
     }
 
     async getAudioFiles(folder){
-        this.#source = folder == '' ?  this.#FILE_PATH : this.#FILE_PATH + '\\' + folder
-        let files    = fs.readdirSync(this.#FILE_PATH + '\\' + folder)
-    
-        return await this.#readFile([], files, 0, [])
+        let folderDecode = decodeURI(folder)
+        this.#source = folder == '' ?  this.#FILE_PATH : this.#FILE_PATH + '\\' + folderDecode
+        try{
+            let files    = fs.readdirSync(this.#FILE_PATH + '\\' + folderDecode)
+            return await this.#readFile([], files, 0, [])
+        }catch(err){ // Missing permission
+            return new Promise((resolve) => resolve([[]], []))
+        }
     }
 
     async #readFile(fileObjects, files, index, folders){
@@ -28,7 +32,12 @@ class FileSystem{
         let filePath      = this.#source + '\\' + files[index]
         let fileNameSplit = files[index].split('.')
         let extension     = fileNameSplit.pop()
-        let fileStats     = fs.statSync(filePath)
+        let fileStats     = null
+        try{
+            fileStats = fs.statSync(filePath)
+        }catch(err){
+            return this.#readFile(fileObjects, files, index + 1, folders)
+        }
     
         // Check if folder
         if(!fileStats.isFile()){
@@ -77,7 +86,12 @@ class FileSystem{
         let fileName      = filePath.split('\\')[filePath.split('\\').length - 1]
         let fileNameSplit = fileName.split('.')
         let extension     = fileNameSplit.pop()
-        let fileStats     = fs.statSync(filePath)
+        let fileStats     = null
+        try{
+            fileStats = fs.statSync(filePath)
+        }catch(err){
+            return this.#readFavourite(fileObjects, paths, index + 1)
+        }
     
         let duration = await getAudioDurationInSeconds(filePath).then((time) => {
             time = Math.round(time)

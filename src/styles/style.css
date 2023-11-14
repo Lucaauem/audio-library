@@ -344,3 +344,17 @@ p{
     pointer-events: all;
     opacity: 1;
 }
+
+.wrong-input{
+    border-color: red !important;
+}
+
+.warning-text{
+    color: red;
+    font-size: 13px !important;
+    display: none;
+}
+
+.warning-text-show{
+    display: block;
+}

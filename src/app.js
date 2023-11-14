@@ -12,6 +12,11 @@ const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
 const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
 const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH)
 
+if(FILE_PATH == ''){
+    FILE_PATH = process.cwd()
+    setDirectory(process.cwd())
+}
+
 app.use(express.static(process.cwd()))
 app.use(express.static(FILE_PATH))
 app.use(fileUpload());
@@ -192,9 +197,12 @@ app.get(new RegExp('(change-dir).*'), (req, res) => {
     newDir.shift()
     newDir = newDir.join('\\')
 
-    setDirectory(decodeURI(newDir))
-
-    res.redirect('/index.html');
+    if(fs.existsSync(newDir)){
+        setDirectory(decodeURI(newDir))
+        res.status(200).send(true)
+    }else{
+        res.status(404).send(false)
+    }
 })
 
 app.get('/', (req, res) => {
@@ -213,4 +221,5 @@ function setDirectory(dir){
     config['directory'] = dir
 
     fs.writeFileSync('./config.json', JSON.stringify(config))
+    return true
 }
