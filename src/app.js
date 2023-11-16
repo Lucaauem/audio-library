@@ -121,7 +121,7 @@ async function getAllFiles(folders){
 
 // Create new Folder
 app.get(new RegExp('(create-folder).*'), (req, res) => {
-    let folderName = (req.originalUrl.split('/')).slice(2).join('/')
+    let folderName = (decodeURI(req.originalUrl).split('/')).slice(2).join('/')
 
     try{
         fs.mkdirSync(FILE_PATH + '/' + folderName)
@@ -134,7 +134,7 @@ app.get(new RegExp('(create-folder).*'), (req, res) => {
 // Remove audio file
 app.get(new RegExp('(remove-file).*'), (req, res) => {
     try{
-        let filePath = FILE_PATH + '/' + (req.originalUrl).split('/').slice(3).join('/')
+        let filePath = FILE_PATH + '/' + (decodeURI(req.originalUrl)).split('/').slice(3).join('/')
         
         fs.unlinkSync(filePath)
         res.sendStatus(200)
@@ -146,7 +146,7 @@ app.get(new RegExp('(remove-file).*'), (req, res) => {
 // Remove Folder
 app.get(new RegExp('(remove-folder).*'), (req, res) => {
     try{
-        let folderPath = (req.originalUrl).split('/').slice(2).join('/')
+        let folderPath = decodeURI(req.originalUrl).split('/').slice(2).join('/')
 
         fs.rmdirSync(FILE_PATH + '/' + folderPath)
         res.sendStatus(201)
@@ -157,7 +157,7 @@ app.get(new RegExp('(remove-folder).*'), (req, res) => {
 
 // Get audio files
 app.get(new RegExp('(audio-files).*'), (req, res) => {
-    let url = (req.originalUrl).split('/')
+    let url = decodeURI(req.originalUrl).split('/')
 
     if(url.length == 2){ // No folder
         FILE_SYSTEM.getAudioFiles('').then(files => { res.send({'path': FILE_PATH, 'files': files[0], 'folders': files[1]}) })
@@ -170,7 +170,7 @@ app.get(new RegExp('(audio-files).*'), (req, res) => {
 // Change in "favourite songs"
 app.get(new RegExp('(favourite-song/).*'), (req, res) => {
     let favourites  = JSON.parse(fs.readFileSync(FAVOURITES_PATH))
-    let path        = req.originalUrl.split('/')
+    let path        = decodeURI(req.originalUrl).split('/')
     path.shift()
     path.shift()
     path = path.join('\\')
@@ -190,9 +190,9 @@ app.get('/get-file-directory', (req, res) => {
     res.status(200).send(FILE_PATH.replaceAll('\\', '\\\\'))
 })
 
-// Change Directory !TODO! Check if dir exists
+// Change Directory
 app.get(new RegExp('(change-dir).*'), (req, res) => {
-    let newDir = req.originalUrl.split('/')
+    let newDir = decodeURI(req.originalUrl).split('/')
     newDir.shift()
     newDir.shift()
     newDir = newDir.join('\\')

@@ -40,9 +40,7 @@ class SearchBar{
         }
 
         this.#allFiles = allFiles
-
-        // Sort content !TODO!
-
+        
         // Add to content
         this.#content = {}
         Object.keys(this.#allFiles).forEach(filePath => {

@@ -109,7 +109,7 @@ function toggleChangeDir(){
 }
 
 function changeDirectory(){
-    let dir = document.getElementById('newDirInput').value
+    let dir = encodeURI(document.getElementById('newDirInput').value)
 
     if(dir == ''){
         return

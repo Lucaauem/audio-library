@@ -31,6 +31,7 @@ function refreshList(){
 
 function createSongListElement(file, path, index){
     favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
+    path = path.replaceAll('/', '\\') // !FIXME!
     let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
     let mainDiv       = document.createElement('div')
     let childDiv      = document.createElement('div')
