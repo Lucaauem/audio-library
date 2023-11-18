@@ -94,8 +94,7 @@ class AudioPlayer{
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
         nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
 
-
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[9], nextSongParams[11])
         
         // Start the next song
         this.play()
@@ -122,7 +121,7 @@ class AudioPlayer{
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
         nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
 
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[7], nextSongParams[9])
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[9], nextSongParams[11])
 
         // Start the next song
         this.play()
