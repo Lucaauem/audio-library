@@ -232,12 +232,13 @@ p{
 }
 
 .row-file-info{
-    width: calc(100% - 15px);
-    margin-left: 10px;
+    width: 100%;
     overflow: scroll;
+    flex-grow: 1;
 }
 
-.row-file-info > p, .row-file-info > h1{
+.row-file-info > div, .row-file-info > h1{
+    padding-left: 10px;
     max-width: 100%;
 }
 
