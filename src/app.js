@@ -50,7 +50,17 @@ app.get('/get-favourite-songs', (req, res) => {
 
 // Get favourites (json)
 app.get('/get-favourite-list', (req, res) => {
-    res.send(JSON.parse(fs.readFileSync(FAVOURITES_PATH)))
+    let json = JSON.parse(fs.readFileSync(FAVOURITES_PATH))
+
+    // Remove entries with invalid path
+    Object.keys(json).forEach(favPath => {
+        if(favPath.indexOf(FILE_PATH) == -1){
+            delete json[favPath]
+        }
+    })
+    fs.writeFileSync(FAVOURITES_PATH, JSON.stringify(json))
+
+    res.send(json)
 })
 
 // Open Directory in Explorer
@@ -120,23 +130,19 @@ async function getAllFiles(folders){
 }
 
 // Create new Folder
-app.get(new RegExp('(create-folder).*'), (req, res) => {
-    let folderName = (decodeURI(req.originalUrl).split('/')).slice(2).join('/')
-
+app.get('/create-folder/:name', (req, res) => {
     try{
-        fs.mkdirSync(FILE_PATH + '/' + folderName)
+        fs.mkdirSync(FILE_PATH + '/' + req.params.name)
         res.sendStatus(200)
     }catch(err){
         res.sendStatus(401)        
     }
 })
 
-// Remove audio file
-app.get(new RegExp('(remove-file).*'), (req, res) => {
+// Remove audio file !FIXME!
+app.get('/remove-file/:path', (req, res) => {
     try{
-        let filePath = FILE_PATH + '/' + (decodeURI(req.originalUrl)).split('/').slice(3).join('/')
-        
-        fs.unlinkSync(filePath)
+        fs.unlinkSync(req.params.path)
         res.sendStatus(200)
     }catch(err){
         res.sendStatus(401)
@@ -144,11 +150,9 @@ app.get(new RegExp('(remove-file).*'), (req, res) => {
 })
 
 // Remove Folder
-app.get(new RegExp('(remove-folder).*'), (req, res) => {
+app.get('/remove-folder/:folder', (req, res) => {
     try{
-        let folderPath = decodeURI(req.originalUrl).split('/').slice(2).join('/')
-
-        fs.rmdirSync(FILE_PATH + '/' + folderPath)
+        fs.rmdirSync(FILE_PATH + '/' + req.params.folder)
         res.sendStatus(201)
     }catch(err){
         res.sendStatus(401)
@@ -156,15 +160,15 @@ app.get(new RegExp('(remove-folder).*'), (req, res) => {
 })
 
 // Get audio files
-app.get(new RegExp('(audio-files).*'), (req, res) => {
-    let url = decodeURI(req.originalUrl).split('/')
+app.get('/audio-files', (req, res) => {
+    FILE_SYSTEM.getAudioFiles('').then(files => { res.send({'path': FILE_PATH, 'files': files[0], 'folders': files[1]}) })
+})
 
-    if(url.length == 2){ // No folder
-        FILE_SYSTEM.getAudioFiles('').then(files => { res.send({'path': FILE_PATH, 'files': files[0], 'folders': files[1]}) })
-    }else{ // 1 folder
-        let folder = url.pop()
-        FILE_SYSTEM.getAudioFiles(folder).then(files => { res.send({'path': FILE_PATH + '/' + folder, 'files': files[0], 'folders': files[1]})})
-    }
+// Get audio files within a folder
+app.get('/audio-files/:folder', (req, res) => {
+    let { folder } = req.params
+
+    FILE_SYSTEM.getAudioFiles(folder).then(files => { res.send({'path': FILE_PATH + '/' + folder, 'files': files[0], 'folders': files[1]})})
 })
 
 // Change in "favourite songs"
