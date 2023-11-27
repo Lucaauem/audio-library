@@ -11,7 +11,7 @@ updateFilesShown(audioFiles)
 addFolders()
 
 const AUDIO_PLAYER = new AudioPlayer('audioPlayer', 'songProcessSlider', httpRequest('get-file-directory'))
-const SEARCH_BAR   = new SearchBar('searchBar', 'get-all-files')
+const SEARCH_BAR   = new SearchBar()
 
 function refreshList(){
     audioFileObj = JSON.parse(httpRequest('audio-files'))

@@ -1,28 +1,46 @@
 class AudioPlayer{
-    TIMER_STEPS_MS    = 25
-    PREV_THRESHOLD_MS = 500
-    FILE_DIRECTORY    = ''
-    currentPlayTime   = 0
-    songIndex         = 0
-    source            = null
-    audio             = null
-    processSlider     = null
-    timerInterval     = null
+    /**@access private */
+    #TIMER_STEP_MS = 25
+    /**@access private */
+    #PREV_THRESHOLD_MS = 500
+    /**@access private */
+    #FILE_DIRECTORY = ''
+    /**@access private */
+    #process_slider = document.getElementById('songProcessSlider')
+    /**@access private */
+    #audio = document.getElementById('audioPlayer')
+    /**@access private */
+    #currentPlayTime = 0
+    /**@access private */
+    #songIndex = 0
+    /**@access private */
+    #source = null
+    /**@access private */
+    #timerInterval = null
     
-    constructor(audioPlayerId, songSliderId, fileDirectoryPath){
-        this.FILE_DIRECTORY = fileDirectoryPath.replaceAll('\\\\', '\\')
-        this.audio = document.getElementById(audioPlayerId)
-        this.audio.addEventListener('ended', this.songEnd.bind(this))
-        this.processSlider = document.getElementById(songSliderId)
-        this.processSlider.addEventListener('input', this.selectPlaytime.bind(this))
-        this.processSlider.value = 0
+    constructor(fileDirectoryPath){
+        this.#FILE_DIRECTORY = fileDirectoryPath.replaceAll('\\\\', '\\')
+        this.#audio.addEventListener('ended', this.songEnd.bind(this))
+        this.#process_slider.addEventListener('input', this.selectPlaytime.bind(this))
+        this.#process_slider.value = 0
     }
 
+    /**
+     * Changes the source of the audio file and updates the
+     * data in the frontend.
+     * 
+     * @param {String} src       Path of the file
+     * @param {String} name      Name of the files (without extension)
+     * @param {String} duration  Duration of the song (mm:ss)
+     * @param {int}    index     Index of the audio in the current list of shown files
+     * @param {String} extension Extension of the file
+     * @param {int}    size      Filesize in MB
+     */
     changeSource(src, name, duration, index, extension, size){
-        this.source          = src.replace(this.FILE_DIRECTORY, '')
-        this.audio.source    = src.replace(this.FILE_DIRECTORY, '')
-        this.currentPlayTime = 0
-        this.songIndex       = index
+        this.#source          = src.replace(this.#FILE_DIRECTORY, '')
+        this.#audio.source    = src.replace(this.#FILE_DIRECTORY, '')
+        this.#currentPlayTime = 0
+        this.#songIndex       = index
 
         this.updateSongCurrentSongData([name, name, src, extension, duration, size])
         
@@ -30,71 +48,78 @@ class AudioPlayer{
         document.getElementById('songDurationTime').innerHTML = duration
     }
 
+    /**
+     * Triggered when clicked on the "play" button.
+     * Starts/stops the audio and updates the frontend correnspondingly.
+     */
     play(){
-        if(this.source == null){
+        if(this.#source == null){
             return
         }
 
         // Update icon
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
         
-        if(this.audio.paused){
-            if(this.currentPlayTime == 0){
-                this.audio.src = this.source
+        if(this.#audio.paused){
+            if(this.#currentPlayTime == 0){
+                this.#audio.src = this.#source
             }
 
-            this.audio.play()
+            this.#audio.play()
             
             // Update time bar
-            this.timerInterval = window.setInterval(() => {
-                this.currentPlayTime += this.TIMER_STEPS_MS
+            this.#timerInterval = window.setInterval(() => {
+                this.#currentPlayTime += this.#TIMER_STEP_MS
                 this.updateProcessBar()
-            }, this.TIMER_STEPS_MS)
+            }, this.#TIMER_STEP_MS)
         }else{
-            clearInterval(this.timerInterval)
-            this.audio.pause()
+            clearInterval(this.#timerInterval)
+            this.#audio.pause()
         }
     }
 
+    /**
+     * Updates the front-/backend when a song has ended.
+     */
     songEnd(){
-        clearInterval(this.timerInterval)
-        this.currentPlayTime = 0
+        clearInterval(this.#timerInterval)
+        this.#currentPlayTime = 0
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
     }
 
     selectPlaytime(){
-        if(this.source == null){
+        if(this.#source == null){
             return
         }
 
-        this.changePlaytime(this.processSlider.value)
+        this.changePlaytime(this.#process_slider.value)
     }
 
     changePlaytime(value){
         // Convert the selected time into a multiple of the current timer step
-        let selectedTimeInMs = (this.audio.duration * (parseInt(value) / 100)) * 1000
-        let correctStepTime  = parseInt(selectedTimeInMs / this.TIMER_STEPS_MS) * this.TIMER_STEPS_MS
+        let selectedTimeInMs = (this.#audio.duration * (parseInt(value) / 100)) * 1000
+        let correctStepTime  = parseInt(selectedTimeInMs / this.#TIMER_STEP_MS) * this.#TIMER_STEP_MS
 
         // Update audio player and playtime string
-        this.audio.currentTime = correctStepTime / 1000
-        this.currentPlayTime   = correctStepTime
+        this.#audio.currentTime = correctStepTime / 1000
+        this.#currentPlayTime   = correctStepTime
         document.getElementById('songCurrentTime').innerHTML = this.toTimeString(correctStepTime)
     }
 
     next(){
-        if(this.source == null){
+        if(this.#source == null){
             return
         }
 
         // Get all songs and select the next
         let currentSongsDOM = Array.from(document.getElementById('fileList').childNodes).filter(file => file.tagName == 'DIV')
-        this.songIndex      = (this.songIndex + 1) % currentSongsDOM.length
+        this.#songIndex      = (this.#songIndex + 1) % currentSongsDOM.length
 
-        let nextSongDOM    = currentSongsDOM[this.songIndex]
+        let nextSongDOM    = currentSongsDOM[this.#songIndex]
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
         nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
 
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[9], nextSongParams[11])
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.#songIndex, nextSongParams[9], nextSongParams[11])
         
         // Start the next song
         this.play()
@@ -102,26 +127,26 @@ class AudioPlayer{
     }
 
     previous(){
-        if(this.source == null){
+        if(this.#source == null){
             return
         }
 
         // Skip to start of the next if playtime > PREV_THRESHOLD
-        if(this.currentPlayTime > this.PREV_THRESHOLD_MS){
+        if(this.#currentPlayTime > this.#PREV_THRESHOLD_MS){
             this.changePlaytime(0)
             return
         }
 
         // Get all songs and select the previous
         let currentSongsDOM = Array.from(document.getElementById('fileList').childNodes).filter(file => file.tagName == 'DIV')
-        let previousIndex   = this.songIndex - 1
-        this.songIndex      = previousIndex < 0 ? currentSongsDOM.length - 1 : previousIndex
+        let previousIndex   = this.#songIndex - 1
+        this.#songIndex      = previousIndex < 0 ? currentSongsDOM.length - 1 : previousIndex
 
-        let nextSongDOM    = currentSongsDOM[this.songIndex]
+        let nextSongDOM    = currentSongsDOM[this.#songIndex]
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
         nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
 
-        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.songIndex, nextSongParams[9], nextSongParams[11])
+        this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.#songIndex, nextSongParams[9], nextSongParams[11])
 
         // Start the next song
         this.play()
@@ -137,16 +162,16 @@ class AudioPlayer{
     }
 
     updateProcessBar(){
-        if(this.audio.paused){
-            clearInterval(this.timerInterval)
+        if(this.#audio.paused){
+            clearInterval(this.#timerInterval)
             return
         }
 
         // Calculate the current percentage of the songs playing time
-        let secondsPassed        = this.currentPlayTime / 1000
-        this.processSlider.value = parseInt((secondsPassed / this.audio.duration) * 100)
+        let secondsPassed        = this.#currentPlayTime / 1000
+        this.#process_slider.value = parseInt((secondsPassed / this.#audio.duration) * 100)
 
-        document.getElementById('songCurrentTime').innerHTML = this.toTimeString(this.currentPlayTime)
+        document.getElementById('songCurrentTime').innerHTML = this.toTimeString(this.#currentPlayTime)
     }
 
     toTimeString(timeInMs){

@@ -1,27 +1,34 @@
+/**
+ * Script which handles the manual resize of the left and right column.
+ * 
+ * @version 1.0.0
+ * @author Luca Aussem
+*/
+
+// Initialize values
 const LEFT_COL_MIN_WIDTH  = 5
 const MID_COL_MIN_WIDTH   = 25
 const RIGHT_COL_MIN_WIDTH = 10
+let columnWidth           = [22.5, 55, 22.5]
+let mouseInitialPos       = -1
+let onResize              = false
 
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
-let columnWidth    = [22.5, 55, 22.5]
+let columnLeft     = document.getElementById('folderColumn')
 
-let columnLeft = document.getElementById('folderColumn')
-let columnRight = null
-
+// Add event listeners
 window.addEventListener('mouseup', endResize)
 resizeBarRight.addEventListener('mousedown', setResize)
 resizeBarRight.addEventListener('mouseup', endResize)
 resizeBarLeft.addEventListener('mousedown', setResize)
 resizeBarLeft.addEventListener('mouseup', endResize)
 
-let mouseInitialPos = -1
-let onResize = false
-
 // Check for styling
 window.addEventListener('resize', () => { updateStylingLeft() })
 updateStylingLeft()
 
+/** !TODO! Could remove this function */
 function setResize(event){
     mouseInitialPos = event.x
 
@@ -32,22 +39,23 @@ function setResize(event){
     }   
 }
 
+/** !TODO! Could remove this function */
 function endResize(event){
     window.removeEventListener('mousemove', resizeLeft)
     window.removeEventListener('mousemove', resizeRight)
 }
 
+// !TODO! Could be merged with resizeRight()
 function resizeLeft(event){
     let mousePos = (event.x / window.innerWidth) * 100
+
     if((mousePos < LEFT_COL_MIN_WIDTH) || ((100 - mousePos - columnWidth[2]) < MID_COL_MIN_WIDTH)){
         return
     }
     
-    // Change size
+    // Update visuals
     columnWidth = [mousePos, 100 - mousePos - columnWidth[2], columnWidth[2]]
     document.getElementById('mainContainer').style.gridTemplateColumns = columnWidth[0] + '% ' + columnWidth[1] +'% ' + columnWidth[2] + '%'
-    
-    // Change styling
     updateStylingLeft()
 }
 
@@ -63,6 +71,9 @@ function resizeRight(event){
     document.getElementById('mainContainer').style.gridTemplateColumns = columnWidth[0] + '% ' + columnWidth[1] +'% ' + columnWidth[2] + '%'
 }
 
+/**
+ * Updates the styling of the right column during the resize.
+ */
 function updateStylingLeft(){
     // Large
     document.getElementById('searchIcon').removeAttribute('onclick')
@@ -78,5 +89,6 @@ function updateStylingLeft(){
     document.getElementById('homeBar').classList.remove('home-bar-small')        
     if(columnLeft.offsetWidth > 100){ return }
     
+    // Small
     document.getElementById('homeBar').classList.add('home-bar-small')
 }
