@@ -18,32 +18,22 @@ let resizeBarRight = document.getElementById('resizeBar-right')
 let columnLeft     = document.getElementById('folderColumn')
 
 // Add event listeners
-window.addEventListener('mouseup', endResize)
-resizeBarRight.addEventListener('mousedown', setResize)
-resizeBarRight.addEventListener('mouseup', endResize)
-resizeBarLeft.addEventListener('mousedown', setResize)
-resizeBarLeft.addEventListener('mouseup', endResize)
+window.addEventListener('mouseup', () => {
+    window.removeEventListener('mousemove', resizeLeft)
+    window.removeEventListener('mousemove', resizeRight)
+})
+resizeBarRight.addEventListener('mousedown', (event) => {
+    mouseInitialPos = event.x
+    window.addEventListener('mousemove', resizeRight)
+})
+resizeBarLeft.addEventListener('mousedown', (event) => {
+    mouseInitialPos = event.x
+    window.addEventListener('mousemove', resizeLeft)
+})
 
 // Check for styling
 window.addEventListener('resize', () => { updateStylingLeft() })
 updateStylingLeft()
-
-/** !TODO! Could remove this function */
-function setResize(event){
-    mouseInitialPos = event.x
-
-    if(event.srcElement.id == 'resizeBar-left'){
-        window.addEventListener('mousemove', resizeLeft)
-    }else{
-        window.addEventListener('mousemove', resizeRight)
-    }   
-}
-
-/** !TODO! Could remove this function */
-function endResize(event){
-    window.removeEventListener('mousemove', resizeLeft)
-    window.removeEventListener('mousemove', resizeRight)
-}
 
 // !TODO! Could be merged with resizeRight()
 function resizeLeft(event){

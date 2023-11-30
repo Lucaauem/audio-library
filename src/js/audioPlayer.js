@@ -1,3 +1,13 @@
+/**
+ * Class which handles the custom audio player.
+ * It changes the audio source, jumps to the next audio and the
+ * volume. It also can jump to a given position of the audio.
+ * 
+ * !FIXME! Songs will not play
+ * 
+ * @author Luca Aussem
+ * @version 1.0.0
+ */
 class AudioPlayer{
     /**@access private */
     #TIMER_STEP_MS = 25
@@ -106,6 +116,9 @@ class AudioPlayer{
         document.getElementById('songCurrentTime').innerHTML = this.toTimeString(correctStepTime)
     }
 
+    /**
+     * Skips the current audio and jumps to the next audio in the list.
+     */
     next(){
         if(this.#source == null){
             return
@@ -126,6 +139,10 @@ class AudioPlayer{
         this.play()
     }
 
+    /**
+     * If the song is playing longer than a given threshold {@link #PREV_THRESHOLD_MS}, it will restart the song.
+     * Otherwise it will jump to the previous song in the list.
+     */
     previous(){
         if(this.#source == null){
             return
@@ -161,6 +178,9 @@ class AudioPlayer{
         
     }
 
+    /**
+     * Updates the value of the slider thus it is synced with the current process of the audio.
+     */
     updateProcessBar(){
         if(this.#audio.paused){
             clearInterval(this.#timerInterval)
@@ -168,12 +188,18 @@ class AudioPlayer{
         }
 
         // Calculate the current percentage of the songs playing time
-        let secondsPassed        = this.#currentPlayTime / 1000
+        let secondsPassed          = this.#currentPlayTime / 1000
         this.#process_slider.value = parseInt((secondsPassed / this.#audio.duration) * 100)
 
         document.getElementById('songCurrentTime').innerHTML = this.toTimeString(this.#currentPlayTime)
     }
 
+    /**
+     * Formats a given time into a String with the format mm:ss
+     * 
+     * @param   {int} timeInMs Time in milliseconds 
+     * @returns {String} Time in the format mm:ss
+     */
     toTimeString(timeInMs){
         let time    = Math.round(timeInMs / 1000)
         let minutes = parseInt(time / 60)
@@ -183,6 +209,11 @@ class AudioPlayer{
         return minutes + ':' + seconds
     }
 
+    /**
+     * Updates the information in the column which shows informations about the song.
+     * 
+     * @param {Array} data Informations about the song
+     */
     updateSongCurrentSongData(data){
         // Text adjustments
         data[3] = data[3] != null & data[3] != undefined ? '.' + data[3] : data[3]
