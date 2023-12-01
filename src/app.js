@@ -194,6 +194,10 @@ app.get('/get-file-directory', (req, res) => {
     res.status(200).send(FILE_PATH.replaceAll('\\', '\\\\'))
 })
 
+app.get('/get-dir', (req, res) => {
+    res.status(200).send(FILE_PATH)
+})
+
 // Change Directory
 app.get(new RegExp('(change-dir).*'), (req, res) => {
     let newDir = decodeURI(req.originalUrl).split('/')

@@ -48,10 +48,10 @@ class AudioPlayer{
      */
     changeSource(src, name, duration, index, extension, size){
         this.#source          = src.replace(this.#FILE_DIRECTORY, '')
-        this.#audio.source    = src.replace(this.#FILE_DIRECTORY, '')
+        this.#audio.source    = this.#source
         this.#currentPlayTime = 0
         this.#songIndex       = index
-
+        
         this.updateSongCurrentSongData([name, name, src, extension, duration, size])
         
         document.getElementById('songName').innerHTML = name

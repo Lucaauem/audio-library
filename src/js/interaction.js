@@ -10,7 +10,7 @@ let sources         = []
 updateFilesShown(audioFiles)
 addFolders()
 
-const AUDIO_PLAYER = new AudioPlayer('audioPlayer', 'songProcessSlider', httpRequest('get-file-directory'))
+const AUDIO_PLAYER = new AudioPlayer(httpRequest('get-dir'))
 const SEARCH_BAR   = new SearchBar()
 
 function refreshList(){
