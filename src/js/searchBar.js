@@ -3,8 +3,8 @@
  * When updating the input, the class will search for files with the
  * input value in their name and return those.
  * 
- * @version 1.0.0
  * @author Luca Aussem
+ * @version 1.0.0
  */
 class SearchBar{
     /**@access private */

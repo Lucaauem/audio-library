@@ -1,9 +1,7 @@
 /**
  * Class which handles the custom audio player.
  * It changes the audio source, jumps to the next audio and the
- * volume. It also can jump to a given position of the audio.
- * 
- * !TODO! Try to remove the single wrapper function
+ * volume. It can also jump to a given position of the audio.
  * 
  * @author Luca Aussem
  * @version 1.0.0
@@ -45,7 +43,7 @@ class AudioPlayer{
         this.#audio.addEventListener('ended', this.songEnd.bind(this))
 
         // Process
-        this.#process_slider.addEventListener('input', this.changePlaytimeWrapper.bind(this))
+        this.#process_slider.addEventListener('input', this.changePlaytime.bind(this, this.#process_slider))
         this.#process_slider.value = 0
 
         // Volume
@@ -115,22 +113,19 @@ class AudioPlayer{
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
     }
 
-    changePlaytimeWrapper(){
-        this.changePlaytime(this.#process_slider.value)
-    }
-
     /**
      * Changes the process of the current song to the given percentage of the audio length.
      * 
-     * @param {int} value Selected process of the song. Is a value between 0 and 100
+     * @param {int} valueObj Selected process of the song. It is an object containing 
+     *                       value between 0 and 100.
      */
-    changePlaytime(value){
+    changePlaytime(valueObj){
         if(this.#source == null){
             return
         }
 
         // Convert the selected time into a multiple of the current timer step
-        let selectedTimeInMs = (this.#audio.duration * (parseInt(value) / 100)) * 1000
+        let selectedTimeInMs = (this.#audio.duration * (parseInt(valueObj.value) / 100)) * 1000
         let correctStepTime  = parseInt(selectedTimeInMs / this.#TIMER_STEP_MS) * this.#TIMER_STEP_MS
 
         // Update audio player and playtime string
@@ -173,7 +168,7 @@ class AudioPlayer{
 
         // Skip to start of the next if playtime > PREV_THRESHOLD
         if(this.#currentPlayTime > this.#PREV_THRESHOLD_MS){
-            this.changePlaytime(0)
+            this.changePlaytime({'value': 0})
             return
         }
 

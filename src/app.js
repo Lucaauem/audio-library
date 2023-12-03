@@ -1,3 +1,4 @@
+/* ==================== NODE MODULES ==================== */
 const express = require('express')
 const path    = require('path')
 const fs      = require('fs')
@@ -21,113 +22,8 @@ app.use(express.static(FILE_PATH))
 app.use(fileUpload());
 console.clear()
 
-app.post('/upload-file', (req, res) => {
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).sendFile(path.join(process.cwd(), '/src/index.html'))
-    }
-
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files['sampleFile']
-    let uploadFolder = req.body['uploadFolder']
-    uploadFolder = uploadFolder == '-' ? '' : uploadFolder + '\\'
-    let uploadPath = FILE_PATH + '\\' + uploadFolder + sampleFile.name
-
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv(uploadPath, function(err) {
-        if (err){
-            return res.status(500).sendFile(path.join(process.cwd(), '/src/index.html'))
-        }
-
-        res.status(200).sendFile(path.join(process.cwd(), '/src/index.html'))
-    })
-})
-
-// Get favourites
-app.get('/get-favourite-songs', (req, res) => {
-    FILE_SYSTEM.getFavourites().then(files => { res.send(files) })
-})
-
-// Get favourites (json)
-app.get('/get-favourite-list', (req, res) => {
-    let json = JSON.parse(fs.readFileSync(FAVOURITES_PATH))
-
-    // Remove entries with invalid path
-    Object.keys(json).forEach(favPath => {
-        if(favPath.indexOf(FILE_PATH) == -1){
-            delete json[favPath]
-        }
-    })
-    fs.writeFileSync(FAVOURITES_PATH, JSON.stringify(json))
-
-    res.send(json)
-})
-
-// Open Directory in Explorer
-app.get('/open-explorer', (req, res) => {
-    exec('start "" "' + FILE_PATH + '"')
-    
-    res.sendStatus(200)
-})
-
-// Get all files
-app.get('/get-all-files', (req, res) => {
-    let folders = ['']
-
-    fs.readdirSync(FILE_PATH).forEach(file => {
-        let stats = fs.statSync(FILE_PATH + '/' + file)
-
-        if(stats.isDirectory()){
-            folders.push(file)
-        }
-    })
-    
-    getAllFiles(folders).then(files => { res.send(files)})
-})
-
-// Get directory
-app.get('/get-directory', (req, res) => {
-    let files = {}
-
-    files['-'] = readDirectory(FILE_PATH)
-
-    fs.readdirSync(FILE_PATH).forEach(file => {
-        let filePath = FILE_PATH + '/' + file
-        let fileStats = fs.statSync(filePath)
-
-        if(fileStats.isDirectory()){
-            files[file] = readDirectory(filePath)
-        }
-    })
-
-    res.send(files)
-})
-
-function readDirectory(path){
-    let files = []
-
-    fs.readdirSync(path).forEach(file => {
-        let filePath = path + '/' + file
-        let fileStats = fs.statSync(filePath)
-
-        if(!fileStats.isDirectory()){
-            files.push({'name': file, 'path': filePath})
-        }
-    })
-
-    return files
-}
-
-async function getAllFiles(folders){
-    let allFiles = []
-
-    for await (const folder of folders){
-        let currentFile = await FILE_SYSTEM.getAudioFiles(folder)
-        allFiles.push(currentFile[0])
-    }
-
-    return allFiles
-}
-
+/* ==================== API ====================*/
+/* ========== GET-REQUESTS ========== */
 // Create new Folder
 app.get('/create-folder/:name', (req, res) => {
     try{
@@ -222,6 +118,114 @@ app.listen(PORT, '0.0.0.0', (err) => {
     }
     console.log('Server up on PORT', PORT)
 })
+
+// Get favourites
+app.get('/get-favourite-songs', (req, res) => {
+    FILE_SYSTEM.getFavourites().then(files => { res.send(files) })
+})
+
+// Get favourites (json)
+app.get('/get-favourite-list', (req, res) => {
+    let json = JSON.parse(fs.readFileSync(FAVOURITES_PATH))
+
+    // Remove entries with invalid path
+    Object.keys(json).forEach(favPath => {
+        if(favPath.indexOf(FILE_PATH) == -1){
+            delete json[favPath]
+        }
+    })
+    fs.writeFileSync(FAVOURITES_PATH, JSON.stringify(json))
+
+    res.send(json)
+})
+
+// Open Directory in Explorer
+app.get('/open-explorer', (req, res) => {
+    exec('start "" "' + FILE_PATH + '"')
+    
+    res.sendStatus(200)
+})
+
+// Get all files
+app.get('/get-all-files', (req, res) => {
+    let folders = ['']
+
+    fs.readdirSync(FILE_PATH).forEach(file => {
+        let stats = fs.statSync(FILE_PATH + '/' + file)
+
+        if(stats.isDirectory()){
+            folders.push(file)
+        }
+    })
+    
+    getAllFiles(folders).then(files => { res.send(files)})
+})
+
+// Get directory
+app.get('/get-directory', (req, res) => {
+    let files = {}
+
+    files['-'] = readDirectory(FILE_PATH)
+
+    fs.readdirSync(FILE_PATH).forEach(file => {
+        let filePath = FILE_PATH + '/' + file
+        let fileStats = fs.statSync(filePath)
+
+        if(fileStats.isDirectory()){
+            files[file] = readDirectory(filePath)
+        }
+    })
+
+    res.send(files)
+})
+
+/* ========== POST-REQUESTS ========== */
+app.post('/upload-file', (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).sendFile(path.join(process.cwd(), '/src/index.html'))
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files['sampleFile']
+    let uploadFolder = req.body['uploadFolder']
+    uploadFolder = uploadFolder == '-' ? '' : uploadFolder + '\\'
+    let uploadPath = FILE_PATH + '\\' + uploadFolder + sampleFile.name
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv(uploadPath, function(err) {
+        if (err){
+            return res.status(500).sendFile(path.join(process.cwd(), '/src/index.html'))
+        }
+
+        res.status(200).sendFile(path.join(process.cwd(), '/src/index.html'))
+    })
+})
+
+function readDirectory(path){
+    let files = []
+
+    fs.readdirSync(path).forEach(file => {
+        let filePath = path + '/' + file
+        let fileStats = fs.statSync(filePath)
+
+        if(!fileStats.isDirectory()){
+            files.push({'name': file, 'path': filePath})
+        }
+    })
+
+    return files
+}
+
+async function getAllFiles(folders){
+    let allFiles = []
+
+    for await (const folder of folders){
+        let currentFile = await FILE_SYSTEM.getAudioFiles(folder)
+        allFiles.push(currentFile[0])
+    }
+
+    return allFiles
+}
 
 function setDirectory(dir){
     let config = JSON.parse(fs.readFileSync('./config.json'))

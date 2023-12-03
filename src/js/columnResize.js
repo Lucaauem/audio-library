@@ -1,8 +1,8 @@
 /**
- * Script which handles the manual resize of the left and right column.
+ * Script which handles the manual resize of the left and right columns.
  * 
- * @version 1.0.0
  * @author Luca Aussem
+ * @version 1.0.0
 */
 
 // Initialize values
@@ -10,8 +10,6 @@ const LEFT_COL_MIN_WIDTH  = 5
 const MID_COL_MIN_WIDTH   = 25
 const RIGHT_COL_MIN_WIDTH = 10
 let columnWidth           = [22.5, 55, 22.5]
-let mouseInitialPos       = -1
-let onResize              = false
 
 let resizeBarLeft  = document.getElementById('resizeBar-left')
 let resizeBarRight = document.getElementById('resizeBar-right')
@@ -23,11 +21,9 @@ window.addEventListener('mouseup', () => {
     window.removeEventListener('mousemove', resizeRight)
 })
 resizeBarRight.addEventListener('mousedown', (event) => {
-    mouseInitialPos = event.x
     window.addEventListener('mousemove', resizeRight)
 })
 resizeBarLeft.addEventListener('mousedown', (event) => {
-    mouseInitialPos = event.x
     window.addEventListener('mousemove', resizeLeft)
 })
 

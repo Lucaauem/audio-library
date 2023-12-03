@@ -7,7 +7,6 @@
 
 let favouritesPaths = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
 let activeElement   = null
-let fileList        = document.getElementById('fileList')
 let audioFileObj    = JSON.parse(httpRequest('audio-files'))
 let filePath        = audioFileObj.path
 let audioFiles      = audioFileObj.files
