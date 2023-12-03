@@ -91,16 +91,16 @@ class SearchBar{
      * @param {int}    index Index of the audio
      */
     createSongListElement(file, path, index){
-        favouritesPaths   = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
-        let activeIconSrc = favouritesPaths.includes(path) ? '-active' : ''
-        let mainDiv       = document.createElement('div')
-        let childDiv      = document.createElement('div')
-        let paragraph     = document.createElement('p')
-        let image         = document.createElement('img')
+        let favouritesPaths = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
+        let activeIconSrc   = favouritesPaths.includes(path) ? '-active' : ''
+        let mainDiv         = document.createElement('div')
+        let childDiv        = document.createElement('div')
+        let paragraph       = document.createElement('p')
+        let image           = document.createElement('img')
     
         mainDiv.classList.add('file-list-item')
         mainDiv.classList.add('border-hover-secondary')
-        mainDiv.setAttribute('onclick', 'selectSong("'+path.replaceAll('\\','\\\\')+'","'+ file.name+'","'+ file.duration+'","'+ index+'","'+ file.type+'","'+ file.size+'")')
+        mainDiv.setAttribute('onclick', `selectSong("${path.replaceAll('\\','\\\\')}","${file.name}","${file.duration}","${index}","${file.type}","${file.size}")`)
 
         // Paragraph with the name
         paragraph.classList = 'text-overflow-dots'
@@ -121,7 +121,7 @@ class SearchBar{
         childDiv.classList = 'file-list-item-fav'
         image.onclick = () => { toggleFavourite(path, image) }
         image.classList = 'like-icon'
-        image.src = '/src/assets/icons/like-icon' + activeIconSrc + '.svg'
+        image.src = `/src/assets/icons/like-icon${activeIconSrc}.svg`
 
         childDiv.append(image)
         mainDiv.appendChild(childDiv)

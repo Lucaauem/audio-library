@@ -2,15 +2,14 @@ const express = require('express')
 const path    = require('path')
 const fs      = require('fs')
 const fileUpload = require('express-fileupload');
-const { exec } = require('child_process')
+const { exec }   = require('child_process')
 const FileSystem = require('./js/fileSystem.js')
 
-let app                  = express()
-let FILE_PATH            = JSON.parse(fs.readFileSync('./config.json'))['directory']
-const PORT               = 8080
-const FAVOURITES_PATH    = path.join(process.cwd(), '/src/favourites.json')
-const ALLOWED_EXTENSIONS = ['mp3', 'wav', 'm4a']
-const FILE_SYSTEM        = new FileSystem(FILE_PATH, ALLOWED_EXTENSIONS, FAVOURITES_PATH)
+let app               = express()
+let FILE_PATH         = JSON.parse(fs.readFileSync('./config.json'))['directory']
+const PORT            = 8080
+const FAVOURITES_PATH = path.join(process.cwd(), '/src/favourites.json')
+const FILE_SYSTEM     = new FileSystem(FILE_PATH, FAVOURITES_PATH)
 
 if(FILE_PATH == ''){
     FILE_PATH = process.cwd()

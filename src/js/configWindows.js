@@ -1,26 +1,45 @@
+/**
+ * Script which handles the different popups for configuration.
+ * 
+ * @author Luca Aussem
+ * @version 1.0.0
+ */
+
 const LOWLIGHT_FRAME = document.getElementById('lowlightFrame')
 let directory        = null
 let directoryFolders = null
 
+/**
+ * Toggles a given popup and adds a dark tint to the background {@link LOWLIGHT_FRAME}.
+ * 
+ * @param {String} id Id of the popup 
+ */
 function togglePopup(id){
     LOWLIGHT_FRAME.onclick = () => { togglePopup(id) }
     LOWLIGHT_FRAME.classList.toggle('lowlight-frame-show')
     document.getElementById(id).classList.toggle('window-popup-show-center')
 }
 
+/**
+ * Gets all folders to which a file could be added and adds them to
+ * the options for the select in the popup.
+ */
 function toggleAddFile(){
     let folderSelect = document.getElementById('addFileSelectFolder')
-    directory = JSON.parse(httpRequest('get-directory'))
+    let options      = []
+    directory        = JSON.parse(httpRequest('get-directory'))
     directoryFolders = Object.keys(directory)
 
     folderSelect.innerHTML = ''
 
     directoryFolders.forEach(folder => {
-        folderSelect.innerHTML += `<option>` + folder + `</option>`
+        options.push(`<option>${folder}</option>`)
     })
+    folderSelect.innerHTML += options.join('')
 
     togglePopup('popupAddFile')
 }
+
 function toggleRemoveFile(){
     // Get directory
     let folderSelect = document.getElementById('removeFileSelectFolder')
@@ -98,6 +117,9 @@ function removeFolder(){
     refreshList() // !FIXME! Folder stays in list
 }
 
+/**
+ * Opens the current directory in the file explorer.
+ */
 function openFileDirectory(){
     httpRequest('/open-explorer')
 }
@@ -108,6 +130,9 @@ function toggleChangeDir(){
     togglePopup('popupChangeDir')
 }
 
+/**
+ * Changes the file directory to the input which was entery by the user.
+ */
 function changeDirectory(){
     let dir = encodeURI(document.getElementById('newDirInput').value)
 

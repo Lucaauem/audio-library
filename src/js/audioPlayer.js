@@ -3,7 +3,7 @@
  * It changes the audio source, jumps to the next audio and the
  * volume. It also can jump to a given position of the audio.
  * 
- * !FIXME! Songs will not play
+ * !TODO! Try to remove the single wrapper function
  * 
  * @author Luca Aussem
  * @version 1.0.0
@@ -18,6 +18,8 @@ class AudioPlayer{
     /**@access private */
     #process_slider = document.getElementById('songProcessSlider')
     /**@access private */
+    #volume_slider = document.getElementById('volumeSlider')
+    /**@access private */
     #audio = document.getElementById('audioPlayer')
     /**@access private */
     #currentPlayTime = 0
@@ -27,12 +29,28 @@ class AudioPlayer{
     #source = null
     /**@access private */
     #timerInterval = null
+    /**@access private */
+    #isMuted = false
+    /**@access private */
+    #recent_volume = 0.75
     
+    /**
+     * Sets all event listeners and initial values.
+     * 
+     * @param {String} fileDirectoryPath Current working directory
+     */
     constructor(fileDirectoryPath){
+        // Playing audio
         this.#FILE_DIRECTORY = fileDirectoryPath.replaceAll('\\\\', '\\')
         this.#audio.addEventListener('ended', this.songEnd.bind(this))
-        this.#process_slider.addEventListener('input', this.selectPlaytime.bind(this))
+
+        // Process
+        this.#process_slider.addEventListener('input', this.changePlaytimeWrapper.bind(this))
         this.#process_slider.value = 0
+
+        // Volume
+        this.#audio.volume  = this.#volume_slider.value / 100
+        this.#recent_volume = this.#audio.volume
     }
 
     /**
@@ -97,15 +115,20 @@ class AudioPlayer{
         document.getElementById('buttonPlay').classList.toggle('button-play-playing')
     }
 
-    selectPlaytime(){
+    changePlaytimeWrapper(){
+        this.changePlaytime(this.#process_slider.value)
+    }
+
+    /**
+     * Changes the process of the current song to the given percentage of the audio length.
+     * 
+     * @param {int} value Selected process of the song. Is a value between 0 and 100
+     */
+    changePlaytime(value){
         if(this.#source == null){
             return
         }
 
-        this.changePlaytime(this.#process_slider.value)
-    }
-
-    changePlaytime(value){
         // Convert the selected time into a multiple of the current timer step
         let selectedTimeInMs = (this.#audio.duration * (parseInt(value) / 100)) * 1000
         let correctStepTime  = parseInt(selectedTimeInMs / this.#TIMER_STEP_MS) * this.#TIMER_STEP_MS
@@ -126,11 +149,11 @@ class AudioPlayer{
 
         // Get all songs and select the next
         let currentSongsDOM = Array.from(document.getElementById('fileList').childNodes).filter(file => file.tagName == 'DIV')
-        this.#songIndex      = (this.#songIndex + 1) % currentSongsDOM.length
+        this.#songIndex     = (this.#songIndex + 1) % currentSongsDOM.length
 
         let nextSongDOM    = currentSongsDOM[this.#songIndex]
         let nextSongParams = nextSongDOM.getAttribute('onclick').split('\"')
-        nextSongParams[1] = nextSongParams[1].replaceAll('\\\\', '\\')
+        nextSongParams[1]  = nextSongParams[1].replaceAll('\\\\', '\\')
 
         this.changeSource(nextSongParams[1], nextSongParams[3], nextSongParams[5], this.#songIndex, nextSongParams[9], nextSongParams[11])
         
@@ -170,12 +193,30 @@ class AudioPlayer{
         this.play()
     }
 
+    /**
+     * Toggles between muted and unmuted.
+     */
     mute(){
-
+        if(this.#isMuted){
+            this.#isMuted = false
+            this.#audio.volume = this.#recent_volume
+            document.getElementById('muteIcon').classList.remove('mute-icon-active')
+            return
+        }
+        this.#isMuted = true
+        this.#audio.volume = 0
+        document.getElementById('muteIcon').classList.add('mute-icon-active')
     }
 
+    /**
+     * Changes the volume to the value of the specific slider (which is a value
+     * between 0 and 1).
+     */
     changeVolume(){
-        
+        if(!this.#isMuted){
+            this.#audio.volume = this.#volume_slider.value / 100
+        }
+        this.#recent_volume = this.#volume_slider.value / 100
     }
 
     /**

@@ -81,7 +81,10 @@
                         <p id="songDurationTime">00:00</p>
                     </div>
                 </div>
-                <div></div>
+                <div class="volume-slider">
+                    <div onclick="AUDIO_PLAYER.mute()" id="muteIcon" class="mute-icon"><div></div></div>
+                    <input oninput="AUDIO_PLAYER.changeVolume()" type="range" min="0" max="100" value="75" id="volumeSlider">
+                </div>
             </div>
         </div>
 

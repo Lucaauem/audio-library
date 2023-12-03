@@ -1,3 +1,10 @@
+/**
+ * Script which handles most of the interactions with the website.
+ * 
+ * @author Luca Aussem
+ * @version 1.0.0
+ */
+
 let favouritesPaths = Object.keys(JSON.parse(httpRequest('get-favourite-list')))
 let activeElement   = null
 let fileList        = document.getElementById('fileList')
@@ -13,6 +20,9 @@ addFolders()
 const AUDIO_PLAYER = new AudioPlayer(httpRequest('get-dir'))
 const SEARCH_BAR   = new SearchBar()
 
+/**
+ * Updates the list with the current files in the directory.
+ */
 function refreshList(){
     audioFileObj = JSON.parse(httpRequest('audio-files'))
     filePath     = audioFileObj.path
@@ -69,7 +79,7 @@ function addFolders(){
         let div = document.createElement('div')
         let img = document.createElement('img')
         let p   = document.createElement('p')
-        div.setAttribute('onclick', 'openFolder("' + folder + '", this)')
+        div.setAttribute('onclick', `openFolder("${folder}", this)`)
         div.classList.add('folder-element')
         div.classList.add('border-hover-secondary')
         img.alt = ''
@@ -97,7 +107,7 @@ function updateFilesShown(audioFiles){
 }
 
 function openFolder(folder, folderDOM){
-    audioFileObj = JSON.parse(httpRequest('audio-files/' + folder))
+    audioFileObj = JSON.parse(httpRequest(`audio-files/${folder}`))
     filePath     = audioFileObj.path
     audioFiles   = audioFileObj.files
     folders      = audioFileObj.folders
